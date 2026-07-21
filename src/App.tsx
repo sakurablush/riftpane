@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { LaserCanvas } from './components/LaserCanvas';
 import { TopControls, BottomControls } from './components/Controls';
 import { SimulationConfig } from './types';
-import { DEFAULT_PERF_CONFIG, DEFAULT_Z_DEPTH, DEFAULT_WALL_COLOR, WALL_COLORS } from './constants';
+import { Eye, EyeOff } from 'lucide-react';
+import { DEFAULT_PERF_CONFIG, DEFAULT_Z_DEPTH, DEFAULT_WALL_COLOR, WALL_COLORS, UI_THEME } from './constants';
 
 const DEFAULT_CONFIG: SimulationConfig = {
   wavelength: 650,
@@ -33,6 +34,7 @@ export default function App() {
   const [activeWall, setActiveWall] = useState<string>(DEFAULT_WALL_COLOR);
   const [zDepth, setZDepth] = useState<number>(DEFAULT_Z_DEPTH);
   const [resetKey, setResetKey] = useState(0);
+  const [hudVisible, setHudVisible] = useState(true);
 
   const handleUpdateConfig = useCallback((updates: Partial<SimulationConfig>) => {
     setConfig((prev) => ({ ...prev, ...updates }));
@@ -54,6 +56,10 @@ export default function App() {
     setResetKey((k) => k + 1);
   }, []);
 
+  const handleToggleHud = useCallback(() => {
+    setHudVisible((prev) => !prev);
+  }, []);
+
   return (
     <div className="w-screen h-screen bg-black overflow-hidden font-mono select-none">
       <LaserCanvas
@@ -62,19 +68,42 @@ export default function App() {
         onZDepthChange={handleZDepthChange}
         resetKey={resetKey}
       />
-      <TopControls
-        config={config}
-        onUpdateConfig={handleUpdateConfig}
-        onResetPerf={handleResetPerf}
-        onResetCamera={handleResetCamera}
-      />
-      <BottomControls
-        config={config}
-        onUpdateConfig={handleUpdateConfig}
-        activeWall={activeWall}
-        onActiveWallChange={handleActiveWallChange}
-        zDepth={zDepth}
-      />
+      {hudVisible && (
+        <>
+          <TopControls
+            config={config}
+            onUpdateConfig={handleUpdateConfig}
+            onResetPerf={handleResetPerf}
+            onResetCamera={handleResetCamera}
+            hudVisible={hudVisible}
+            onToggleHud={handleToggleHud}
+          />
+          <BottomControls
+            config={config}
+            onUpdateConfig={handleUpdateConfig}
+            activeWall={activeWall}
+            onActiveWallChange={handleActiveWallChange}
+            zDepth={zDepth}
+          />
+        </>
+      )}
+      {/* HUD Toggle Button - always visible when HUD is hidden */}
+      {!hudVisible && (
+        <button
+          onClick={handleToggleHud}
+          aria-label="Show HUD"
+          title="Show HUD"
+          className="absolute top-3 right-3 z-50 flex items-center justify-center w-10 h-10 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+          style={{
+            background: UI_THEME.surface.glass,
+            color: UI_THEME.sakura[200],
+            borderColor: UI_THEME.surface.border,
+            boxShadow: '0 0 20px rgba(255, 112, 150, 0.3)',
+          }}
+        >
+          <Eye size={16} />
+        </button>
+      )}
       {/* Soft overlay vignette / blend */}
       <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />
     </div>

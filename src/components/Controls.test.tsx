@@ -35,7 +35,7 @@ const mockConfig: SimulationConfig = {
 describe('TopControls Component', () => {
   it('renders version buttons with CodeOfReality font letters and updates on click', () => {
     const handleUpdate = vi.fn();
-    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} />);
+    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} hudVisible={true} onToggleHud={vi.fn()} />);
 
     expect(screen.getByText('Version')).toBeInTheDocument();
 
@@ -49,7 +49,7 @@ describe('TopControls Component', () => {
 
   it('renders performance sliders and handles slider changes', () => {
     const handleUpdate = vi.fn();
-    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} />);
+    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} hudVisible={true} onToggleHud={vi.fn()} />);
 
     const stepsSlider = screen.getByLabelText('Performance parameter Steps');
     const distSlider = screen.getByLabelText('Performance parameter Dist');
@@ -69,12 +69,13 @@ describe('TopControls Component', () => {
     expect(handleUpdate).toHaveBeenCalledWith({ sparkleIntensity: 3.0 });
   });
 
-  it('renders reset buttons and tribute links', () => {
+  it('renders reset buttons, HUD toggle and tribute links', () => {
     const handleUpdate = vi.fn();
-    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} />);
+    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} hudVisible={true} onToggleHud={vi.fn()} />);
 
-    expect(screen.getByLabelText('Reset performance settings')).toBeInTheDocument();
-    expect(screen.getByLabelText('Reset camera position')).toBeInTheDocument();
+    expect(screen.getByLabelText('Reset performance')).toBeInTheDocument();
+    expect(screen.getByLabelText('Reset camera')).toBeInTheDocument();
+    expect(screen.getByLabelText('Hide HUD')).toBeInTheDocument();
 
     const githubLink = screen.getByLabelText('Riftpane on GitHub');
     expect(githubLink).toBeInTheDocument();
@@ -83,6 +84,10 @@ describe('TopControls Component', () => {
     const corLink = screen.getByLabelText('Code of Reality community website');
     expect(corLink).toBeInTheDocument();
     expect(corLink).toHaveAttribute('href', 'https://codeofreality.org/');
+
+    const discordLink = screen.getByLabelText('Join Code of Reality Discord');
+    expect(discordLink).toBeInTheDocument();
+    expect(discordLink).toHaveAttribute('href', 'https://discord.gg/invite/codeofreality');
   });
 });
 

@@ -41,4 +41,23 @@ describe('App Component Integration', () => {
     expect(screen.getByText(/Z-DEPTH:/)).toBeInTheDocument();
     expect(screen.getByText(/Z-DEPTH:/).textContent).not.toBe(initialDepthText);
   });
+
+  it('toggles HUD visibility and shows reset buttons', () => {
+    render(<App />);
+
+    // HUD is visible by default
+    expect(screen.getByLabelText('Hide HUD')).toBeInTheDocument();
+
+    // Reset buttons exist
+    expect(screen.getByLabelText('Reset performance')).toBeInTheDocument();
+    expect(screen.getByLabelText('Reset camera')).toBeInTheDocument();
+
+    // Toggle HUD off
+    fireEvent.click(screen.getByLabelText('Hide HUD'));
+    expect(screen.getByLabelText('Show HUD')).toBeInTheDocument();
+
+    // Toggle HUD back on
+    fireEvent.click(screen.getByLabelText('Show HUD'));
+    expect(screen.getByLabelText('Hide HUD')).toBeInTheDocument();
+  });
 });
