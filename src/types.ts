@@ -6,7 +6,6 @@ export interface WavelengthPreset {
   baseRgb: [number, number, number]; // RGB representation
   glowRgb: [number, number, number]; // RGB representation of glow
   grainSize: number; // Speckle grain size based on wavelength (longer = larger)
-  frequencyFactor: number; // Modulator for sound hum pitch
 }
 
 export interface SimulationConfig {
@@ -29,9 +28,6 @@ export interface SimulationConfig {
   showMicroscope: boolean; // Hover magnifying glass to see Katakana glyphs
   microscopeX: number;
   microscopeY: number;
-  audioVolume: boolean;
-  audioVolumeLevel: number; // 0 to 1
-  audioType: 'coherent' | 'ambient' | 'pulsing';
   // Graphics & Performance settings
   raymarchSteps: number; // 10 to 120 (default 90)
   raymarchDistance: number; // 10 to 100 (default 60)
@@ -49,7 +45,6 @@ export const WAVELENGTHS: Record<number, WavelengthPreset> = {
     baseRgb: [255, 0, 40],
     glowRgb: [255, 90, 0],
     grainSize: 3.5, // Red has larger physical speckle size
-    frequencyFactor: 1.0, // Low bass hum
   },
   532: {
     nm: 532,
@@ -59,7 +54,6 @@ export const WAVELENGTHS: Record<number, WavelengthPreset> = {
     baseRgb: [0, 255, 70],
     glowRgb: [210, 255, 0],
     grainSize: 2.9,
-    frequencyFactor: 1.3,
   },
   488: {
     nm: 488,
@@ -69,7 +63,6 @@ export const WAVELENGTHS: Record<number, WavelengthPreset> = {
     baseRgb: [0, 235, 255],
     glowRgb: [0, 255, 140],
     grainSize: 2.6,
-    frequencyFactor: 1.5,
   },
   450: {
     nm: 450,
@@ -79,7 +72,6 @@ export const WAVELENGTHS: Record<number, WavelengthPreset> = {
     baseRgb: [0, 70, 255],
     glowRgb: [180, 0, 255],
     grainSize: 2.3,
-    frequencyFactor: 1.8,
   },
   405: {
     nm: 405,
@@ -89,7 +81,6 @@ export const WAVELENGTHS: Record<number, WavelengthPreset> = {
     baseRgb: [130, 0, 255],
     glowRgb: [240, 220, 255],
     grainSize: 1.9, // Violet has tiny physical speckle size
-    frequencyFactor: 2.2, // High frequency hum
   },
 };
 
