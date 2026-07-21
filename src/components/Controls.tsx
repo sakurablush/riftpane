@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Settings2, Github, Globe, RotateCcw, Home, Heart, Eye, EyeOff } from 'lucide-react';
+import { RotateCcw, Camera, Eye, EyeOff, Heart, Sparkles, Settings2, Github } from 'lucide-react';
 import { SimulationConfig, WAVELENGTHS } from '../types';
 import { LASER_WAVELENGTHS, VERSION_LABELS, VERSION_NAMES, UI_THEME } from '../constants';
 import { WallColorPicker } from './WallColorPicker';
@@ -37,7 +37,7 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
         }}
       >
         {/* Version */}
-        <div className="flex items-center gap-1 md:gap-1.5">
+        <div className="flex items-center gap-1">
           <span className="text-[8px] text-sakura-300 font-bold tracking-[0.2em] uppercase hidden sm:block mr-1">Version</span>
           <div className="flex items-center gap-1">
             {[1, 2, 3, 4, 5].map((v) => (
@@ -115,8 +115,38 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
           style={{ background: UI_THEME.surface.divider }}
         />
 
-        {/* HUD + Resets */}
+        {/* Icon Buttons: Perf Reset | Camera Reset | HUD Toggle */}
         <div className="flex items-center gap-1">
+          {onResetPerf && (
+            <button
+              onClick={onResetPerf}
+              aria-label="Reset performance"
+              title="Reset performance"
+              className="flex items-center justify-center w-6 h-6 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+              style={{
+                background: UI_THEME.surface.glassHover,
+                color: UI_THEME.sakura[200],
+                borderColor: UI_THEME.surface.border,
+              }}
+            >
+              <Settings2 size={10} />
+            </button>
+          )}
+          {onResetCamera && (
+            <button
+              onClick={onResetCamera}
+              aria-label="Reset camera"
+              title="Reset camera"
+              className="flex items-center justify-center w-6 h-6 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+              style={{
+                background: UI_THEME.surface.glassHover,
+                color: UI_THEME.sakura[200],
+                borderColor: UI_THEME.surface.border,
+              }}
+            >
+              <Camera size={10} />
+            </button>
+          )}
           {onToggleHud && (
             <button
               onClick={onToggleHud}
@@ -132,69 +162,37 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
               {hudVisible ? <Eye size={10} /> : <EyeOff size={10} />}
             </button>
           )}
-          {onResetPerf && (
-            <button
-              onClick={onResetPerf}
-              aria-label="Reset performance"
-              title="Reset performance"
-              className="flex items-center justify-center w-6 h-6 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
-              style={{
-                background: UI_THEME.surface.glassHover,
-                color: UI_THEME.sakura[200],
-                borderColor: UI_THEME.surface.border,
-              }}
-            >
-              <RotateCcw size={10} />
-            </button>
-          )}
-          {onResetCamera && (
-            <button
-              onClick={onResetCamera}
-              aria-label="Reset camera"
-              title="Reset camera"
-              className="flex items-center justify-center w-6 h-6 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
-              style={{
-                background: UI_THEME.surface.glassHover,
-                color: UI_THEME.sakura[200],
-                borderColor: UI_THEME.surface.border,
-              }}
-            >
-              <Home size={10} />
-            </button>
-          )}
         </div>
 
-        {/* Tribute Links */}
+        {/* Tribute Links - icon only */}
         <div className="flex items-center gap-1 ml-auto">
           <a
             href="https://github.com/sakurablush/riftpane"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Riftpane on GitHub"
-            className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-full text-[9px] md:text-[10px] font-medium transition-all duration-200 hover:scale-105"
+            className="flex items-center justify-center w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
             style={{
               background: UI_THEME.surface.glassHover,
               color: UI_THEME.sakura[200],
-              border: `1px solid ${UI_THEME.surface.border}`,
+              borderColor: UI_THEME.surface.border,
             }}
           >
             <Github size={10} />
-            <span>GitHub</span>
           </a>
           <a
             href="https://codeofreality.org/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Code of Reality community website"
-            className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-full text-[9px] md:text-[10px] font-medium transition-all duration-200 hover:scale-105"
+            className="flex items-center justify-center w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
             style={{
               background: UI_THEME.surface.glassHover,
               color: UI_THEME.sakura[200],
-              border: `1px solid ${UI_THEME.surface.border}`,
+              borderColor: UI_THEME.surface.border,
             }}
           >
-            <Globe size={10} />
-            <span>CoR</span>
+            <Sparkles size={10} />
           </a>
           <a
             href="https://discord.gg/invite/codeofreality"
@@ -283,7 +281,7 @@ export const BottomControls: React.FC<ControlsProps> = React.memo(({
         }}
       >
         {/* Laser Wavelength Selector */}
-        <div className="flex items-center gap-1 md:gap-1.5">
+        <div className="flex items-center gap-1">
           <span className="text-[8px] text-sakura-300 font-bold tracking-[0.2em] uppercase hidden sm:block mr-1">LASER</span>
           <div className="flex items-center gap-0.5 md:gap-1">
             {LASER_WAVELENGTHS.map((nm) => {

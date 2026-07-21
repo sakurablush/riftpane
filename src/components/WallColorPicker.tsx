@@ -94,7 +94,7 @@ export const WallColorPicker: React.FC<WallColorPickerProps> = React.memo(({ act
 
   return (
     <div className="relative flex items-center shrink-0">
-      <span className="text-zinc-500 text-[9px] tracking-[0.2em] font-bold mt-0.5 hidden sm:block mr-2">
+      <span className="text-[9px] text-sakura-300 tracking-[0.2em] font-bold mt-0.5 hidden sm:block mr-2">
         WALL
       </span>
 

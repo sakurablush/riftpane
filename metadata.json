@@ -1,6 +1,7 @@
 {
-  "name": "Riftpane - Laser Speckle & Volumetric Cavern Simulator",
-  "description": "GLSL raymarching + laser speckle art piece — a visual tribute to the Code of Reality community, not a scientific claim",
+  "name": "Riftpane",
+  "description": "Real-time WebGL volumetric laser-speckle cavern. Raymarched SDF art inspired by the Code of Reality community, rendered with GLSL fragment shaders.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": ["MAJOR_CAPABILITY_WEBGL"],
+  "tags": ["webgl", "glsl", "shader-art", "raymarching", "sdf", "generative-art", "volumetric", "laser", "speckle"]
 }

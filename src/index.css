@@ -13,6 +13,17 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-reality: "CodeOfReality", sans-serif;
+
+  --color-sakura-50: #fff5f7;
+  --color-sakura-100: #ffe0e6;
+  --color-sakura-200: #ffc2d1;
+  --color-sakura-300: #ff9db5;
+  --color-sakura-400: #ff7096;
+  --color-sakura-500: #ff477e;
+  --color-sakura-600: #e82560;
+  --color-sakura-700: #c81e4f;
+  --color-sakura-800: #a31840;
+  --color-sakura-900: #86153a;
 }
 
 /* Custom fine scrollbar design for retro-deck HUD */
