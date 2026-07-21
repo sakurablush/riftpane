@@ -1,6 +1,6 @@
 {
   "name": "Riftpane - Laser Speckle & Volumetric Cavern Simulator",
-  "description": "Interactive WebGL shader environment simulating coherent laser beam diffraction, optical speckle interference, and volumetric raymarched parallax cavern geometries across distinct spatial configurations.",
+  "description": "GLSL raymarching + laser speckle art piece — a visual tribute to the Code of Reality community, not a scientific claim",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,7 +1,26 @@
 {
   "name": "riftpane",
-  "private": true,
   "version": "0.0.0",
+  "description": "GLSL raymarching + laser speckle art piece — a visual tribute to the Code of Reality community, not a scientific claim",
+  "private": true,
+  "keywords": [
+    "webgl",
+    "glsl",
+    "shader-art",
+    "raymarching",
+    "sdf",
+    "generative-art",
+    "creative-coding",
+    "signed-distance-field",
+    "volumetric-rendering",
+    "speckle-pattern",
+    "react",
+    "typescript",
+    "vitest",
+    "fan-tribute",
+    "laser-art",
+    "procedural-graphics"
+  ],
   "license": "MIT",
   "type": "module",
   "scripts": {
