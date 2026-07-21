@@ -3,7 +3,7 @@ import { SimulationConfig, WAVELENGTHS } from '../types';
 import { hexToRgbVec3 } from '../utils';
 import { getVertexShaderSource, getFragmentShaderSource } from '../shaders';
 import { generateFontAtlas, ATLAS_INFO } from '../utils/fontAtlas';
-import { ATLAS_UNIFORM_VALUES, FONT_ATLAS_UNIFORMS, UI_CONSTANTS, FULLSCREEN_QUAD_VERTICES, MILLISECONDS_TO_SECONDS } from '../constants';
+import { ATLAS_UNIFORM_VALUES, FONT_ATLAS_UNIFORMS, UI_CONSTANTS, FULLSCREEN_QUAD_VERTICES, MILLISECONDS_TO_SECONDS, BYTE_TO_FLOAT, WINDOW_FALLBACK_WIDTH, WINDOW_FALLBACK_HEIGHT } from '../constants';
 
 interface LaserCanvasProps {
   config: SimulationConfig;
@@ -113,8 +113,8 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
     // Handle canvas dimensions on resize rather than every animation frame
     const handleResize = () => {
       if (!canvas) return;
-      const width = window.innerWidth || 800;
-      const height = window.innerHeight || 600;
+      const width = window.innerWidth || WINDOW_FALLBACK_WIDTH;
+      const height = window.innerHeight || WINDOW_FALLBACK_HEIGHT;
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width;
         canvas.height = height;
@@ -212,7 +212,7 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
       gl.uniform1f(uniforms.uSparkle, currentConfig.sparkleIntensity);
 
       const preset = WAVELENGTHS[currentConfig.wavelength] || WAVELENGTHS[650];
-      const lc = [preset.baseRgb[0] / 255.0, preset.baseRgb[1] / 255.0, preset.baseRgb[2] / 255.0];
+      const lc = [preset.baseRgb[0] * BYTE_TO_FLOAT, preset.baseRgb[1] * BYTE_TO_FLOAT, preset.baseRgb[2] * BYTE_TO_FLOAT];
       gl.uniform3f(uniforms.uLCol, lc[0], lc[1], lc[2]);
 
       const wc = hexToRgbVec3(wallColorRef.current);

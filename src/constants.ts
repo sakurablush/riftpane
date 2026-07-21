@@ -45,6 +45,9 @@ export const UI_CONSTANTS = {
 
 export const DEFAULT_FALLBACK_COLOR: [number, number, number] = [0.02, 0.0, 0.0];
 export const MILLISECONDS_TO_SECONDS = 0.001;
+export const BYTE_TO_FLOAT = 1 / 255;
+export const WINDOW_FALLBACK_WIDTH = 800;
+export const WINDOW_FALLBACK_HEIGHT = 600;
 
 export const FULLSCREEN_QUAD_VERTICES = [
   -1, -1,

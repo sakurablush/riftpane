@@ -1,6 +1,6 @@
 # Vision Prompts
 
-The prompts below were crafted based on the transcript of an interview with **Danny**, a member of the **Code of Reality** community, in which he describes in detail what he sees when looking into a diffracted red laser.
+The prompts below were crafted based on the transcript of an interview from the **Close Encounter Club** YouTube channel, in which a witness describes in detail what he sees when looking into a diffracted red laser. The description is preserved here with full respect for the Code of Reality community and the original testimony.
 
 **Source interview:** [https://youtu.be/I4JGLyrV7cQ](https://youtu.be/I4JGLyrV7cQ)
 

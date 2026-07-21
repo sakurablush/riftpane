@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import { vi, afterEach } from 'vitest';
 
 // Mock WebGLRenderingContext for jsdom environment
 function createMockWebGLContext() {
@@ -71,8 +71,8 @@ function createMock2DContext(): Partial<CanvasRenderingContext2D> {
   return {
     font: '',
     fillStyle: '',
-    textAlign: '',
-    textBaseline: '',
+    textAlign: 'start',
+    textBaseline: 'alphabetic',
     clearRect: vi.fn(),
     fillText: vi.fn((_text: string, _x: number, _y: number) => {
       const key = `${_x},${_y}`;
