@@ -42,7 +42,6 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
               <button
                 key={v}
                 onClick={() => handleShaderVersionChange(v)}
-                title={VERSION_NAMES[v]}
                 aria-label={`Select Scene ${VERSION_LABELS[v - 1]}: ${VERSION_NAMES[v]}`}
                 className={`w-8 h-8 md:w-9 md:h-9 rounded-full text-sm md:text-base font-bold transition-all duration-200 cursor-pointer border ${
                   config.shaderVersion === v
