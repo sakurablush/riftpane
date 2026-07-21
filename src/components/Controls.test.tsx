@@ -27,23 +27,24 @@ const mockConfig: SimulationConfig = {
   showArchitecture: true,
   raymarchSteps: 90,
   raymarchDistance: 60,
-  snowIntensity: 1.0,
+  snowIntensity: 0.3,
   sparkleIntensity: 1.0,
   shaderVersion: 1,
 };
 
 describe('TopControls Component', () => {
-  it('renders shader version buttons and updates version on click', () => {
+  it('renders version buttons with CodeOfReality font letters and updates on click', () => {
     const handleUpdate = vi.fn();
     render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} />);
 
     expect(screen.getByText('Version')).toBeInTheDocument();
 
-    const v3Btn = screen.getByLabelText(/Select Shader Version 3/);
-    expect(v3Btn).toBeInTheDocument();
+    const sceneB = screen.getByLabelText(/Select Scene b/);
+    expect(sceneB).toBeInTheDocument();
+    expect(sceneB).toHaveTextContent('b');
 
-    fireEvent.click(v3Btn);
-    expect(handleUpdate).toHaveBeenCalledWith({ shaderVersion: 3 });
+    fireEvent.click(sceneB);
+    expect(handleUpdate).toHaveBeenCalledWith({ shaderVersion: 2 });
   });
 
   it('renders performance sliders and handles slider changes', () => {
@@ -67,10 +68,22 @@ describe('TopControls Component', () => {
     fireEvent.change(sparkSlider, { target: { value: '3.0' } });
     expect(handleUpdate).toHaveBeenCalledWith({ sparkleIntensity: 3.0 });
   });
+
+  it('renders tribute links to GitHub and Code of Reality', () => {
+    render(<TopControls config={mockConfig} onUpdateConfig={vi.fn()} />);
+
+    const githubLink = screen.getByLabelText('Riftpane on GitHub');
+    expect(githubLink).toBeInTheDocument();
+    expect(githubLink).toHaveAttribute('href', 'https://github.com/sakurablush/riftpane');
+
+    const corLink = screen.getByLabelText('Code of Reality community website');
+    expect(corLink).toBeInTheDocument();
+    expect(corLink).toHaveAttribute('href', 'https://codeofreality.org/');
+  });
 });
 
 describe('BottomControls Component', () => {
-  it('renders laser wavelength buttons and updates wavelength on click', () => {
+  it('renders laser wavelength buttons with color indicators and updates wavelength on click', () => {
     const handleUpdate = vi.fn();
     const handleWallChange = vi.fn();
 
@@ -78,7 +91,7 @@ describe('BottomControls Component', () => {
       <BottomControls
         config={mockConfig}
         onUpdateConfig={handleUpdate}
-        activeWall="#050000"
+        activeWall="#2633d0"
         onActiveWallChange={handleWallChange}
         zDepth={1.5}
       />
@@ -101,7 +114,7 @@ describe('BottomControls Component', () => {
       <BottomControls
         config={mockConfig}
         onUpdateConfig={vi.fn()}
-        activeWall="#050000"
+        activeWall="#2633d0"
         onActiveWallChange={vi.fn()}
         zDepth={2.4567}
       />

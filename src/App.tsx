@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { LaserCanvas } from './components/LaserCanvas';
 import { TopControls, BottomControls } from './components/Controls';
 import { SimulationConfig } from './types';
-import { DEFAULT_PERF_CONFIG, DEFAULT_Z_DEPTH, WALL_COLORS } from './constants';
+import { DEFAULT_PERF_CONFIG, DEFAULT_Z_DEPTH, DEFAULT_WALL_COLOR, WALL_COLORS } from './constants';
 
 const DEFAULT_CONFIG: SimulationConfig = {
   wavelength: 650,
@@ -30,7 +30,7 @@ const DEFAULT_CONFIG: SimulationConfig = {
 
 export default function App() {
   const [config, setConfig] = useState<SimulationConfig>(DEFAULT_CONFIG);
-  const [activeWall, setActiveWall] = useState<string>(WALL_COLORS[0].hex);
+  const [activeWall, setActiveWall] = useState<string>(DEFAULT_WALL_COLOR);
   const [zDepth, setZDepth] = useState<number>(DEFAULT_Z_DEPTH);
 
   const handleUpdateConfig = useCallback((updates: Partial<SimulationConfig>) => {

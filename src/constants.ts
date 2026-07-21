@@ -30,17 +30,51 @@ export const WALL_COLORS: WallColorOption[] = [
   { hex: '#7c2d12', name: 'Rust Red' },
   { hex: '#0f172a', name: 'Night Sky' },
   { hex: '#262626', name: 'Neutral Dark' },
+  { hex: '#2633d0', name: 'Sakura Indigo' },
 ];
 
+export const DEFAULT_WALL_COLOR = '#2633d0';
 export const DEFAULT_Z_DEPTH = 1.5;
 
 export const UI_CONSTANTS = {
   wallColorDropdownOffset: 8,
   wallColorDropdownZIndex: 100,
-  zoomMin: 0.1,
+  zoomMin: -20.0,
   zoomMax: 30.0,
   zoomSensitivity: 0.002,
   mouseLookSensitivity: 0.005,
+} as const;
+
+export const VERSION_NAMES: Record<number, string> = {
+  1: 'Classic Raymarched Cavern',
+  2: 'Monolithic Teeth & Glass Slices',
+  3: 'Drone Archipelago & Wavy Sea',
+  4: 'Soap Bubble Membrane & Katakana Rain',
+  5: 'Winged Void & Volumetric Cavern',
+};
+
+export const VERSION_LABELS = ['a', 'b', 'c', 'd', 'e'] as const;
+
+export const UI_THEME = {
+  sakura: {
+    50: '#fff5f7',
+    100: '#ffe0e6',
+    200: '#ffc2d1',
+    300: '#ff9db5',
+    400: '#ff7096',
+    500: '#ff477e',
+    600: '#e82560',
+    700: '#c81e4f',
+    800: '#a31840',
+    900: '#86153a',
+  },
+  surface: {
+    glass: 'rgba(20, 8, 16, 0.55)',
+    glassHover: 'rgba(40, 16, 28, 0.65)',
+    border: 'rgba(255, 116, 150, 0.18)',
+    borderActive: 'rgba(255, 116, 150, 0.55)',
+    divider: 'rgba(255, 116, 150, 0.12)',
+  },
 } as const;
 
 export const DEFAULT_FALLBACK_COLOR: [number, number, number] = [0.02, 0.0, 0.0];

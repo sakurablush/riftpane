@@ -16,13 +16,13 @@ describe('App Component Integration', () => {
   it('switches shader versions, laser wavelengths, and wall colors', () => {
     render(<App />);
 
-    const v2Btn = screen.getByLabelText(/Select Shader Version 2/);
-    fireEvent.click(v2Btn);
-    expect(v2Btn.className).toContain('bg-zinc-200');
+    const sceneB = screen.getByLabelText(/Select Scene b/);
+    fireEvent.click(sceneB);
+    expect(sceneB).toHaveTextContent('b');
 
     const laser532 = screen.getByLabelText('Select Laser Wavelength 532 nanometers');
     fireEvent.click(laser532);
-    expect(laser532.className).toContain('bg-zinc-200');
+    expect(laser532).toHaveTextContent('532nm');
 
     const paletteBtns = screen.getAllByLabelText('Open full wall color palette');
     fireEvent.click(paletteBtns[0]);

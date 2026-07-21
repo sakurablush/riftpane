@@ -45,7 +45,7 @@ The `CodeOfRealityV1.otf` font used for glyph rendering in this project was prov
 
 ## 🙏 A Tribute to Code of Reality
 
-This project exists because of the work of **[Danny Goler](https://x.com/golerdanny)**, founder of **[Code of Reality](https://codeofreality.org)**, and the **[Project Veilbreak](https://veilbreak.ai)** team, who have spent years building the open protocols and infrastructure that let thousands of people compare notes on what they see. Whatever your own view on what that phenomenon *is*, the amount of careful documentation, community-building, and open data work behind it deserves real respect — and this project is a small, independent way of saying so.
+This project exists because of the work of **[Danny Goler](https://x.com/golerdanny)**, founder of **[Code of Reality](https://codeofreality.org)**, and the **[Project Veilbreak](https://veilbreak.ai)** team, and the broader **CoR Discord community** — especially the channel administrator who provided the `CodeOfRealityV1.otf` font used for glyph rendering. If you'd like to join the conversation, you can find the community on Discord: **[discord.gg/invite/codeofreality](https://discord.gg/invite/codeofreality)**.
 
 Riftpane is **not** affiliated with, endorsed by, or built in partnership with Code of Reality or Project Veilbreak. It's a fan-made art piece, made by someone outside the community, as a visual love letter to the descriptions the community has shared publicly.
 
