@@ -1,0 +1,6 @@
+{
+  "name": "Laser Speckle and Cavern Simulator",
+  "description": "An interactive high-fidelity simulation of diffracted laser beams, physical speckle patterns, and multi-layered parallax cavern architecture based on wavelength physics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
