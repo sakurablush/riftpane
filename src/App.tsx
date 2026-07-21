@@ -32,6 +32,7 @@ export default function App() {
   const [config, setConfig] = useState<SimulationConfig>(DEFAULT_CONFIG);
   const [activeWall, setActiveWall] = useState<string>(DEFAULT_WALL_COLOR);
   const [zDepth, setZDepth] = useState<number>(DEFAULT_Z_DEPTH);
+  const [resetKey, setResetKey] = useState(0);
 
   const handleUpdateConfig = useCallback((updates: Partial<SimulationConfig>) => {
     setConfig((prev) => ({ ...prev, ...updates }));
@@ -45,14 +46,28 @@ export default function App() {
     setZDepth(depth);
   }, []);
 
+  const handleResetPerf = useCallback(() => {
+    setConfig((prev) => ({ ...prev, ...DEFAULT_PERF_CONFIG }));
+  }, []);
+
+  const handleResetCamera = useCallback(() => {
+    setResetKey((k) => k + 1);
+  }, []);
+
   return (
     <div className="w-screen h-screen bg-black overflow-hidden font-mono select-none">
       <LaserCanvas
         config={config}
         wallColor={activeWall}
         onZDepthChange={handleZDepthChange}
+        resetKey={resetKey}
       />
-      <TopControls config={config} onUpdateConfig={handleUpdateConfig} />
+      <TopControls
+        config={config}
+        onUpdateConfig={handleUpdateConfig}
+        onResetPerf={handleResetPerf}
+        onResetCamera={handleResetCamera}
+      />
       <BottomControls
         config={config}
         onUpdateConfig={handleUpdateConfig}

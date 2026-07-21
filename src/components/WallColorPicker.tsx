@@ -19,9 +19,9 @@ export const WallColorPicker: React.FC<WallColorPickerProps> = React.memo(({ act
     const rect = triggerRef.current.getBoundingClientRect();
     setDropdownStyle({
       position: 'fixed',
-      top: rect.top - UI_CONSTANTS.wallColorDropdownOffset,
+      top: rect.bottom + 4,
       left: rect.left + rect.width / 2,
-      transform: 'translate(-50%, -100%)',
+      transform: 'translate(-50%, 0)',
       zIndex: UI_CONSTANTS.wallColorDropdownZIndex,
     });
   }, []);

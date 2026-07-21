@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import { Settings2, Github, Globe } from 'lucide-react';
+import { Settings2, Github, Globe, RotateCcw, Home } from 'lucide-react';
 import { SimulationConfig, WAVELENGTHS } from '../types';
-import { LASER_WAVELENGTHS, VERSION_LABELS, VERSION_NAMES, UI_THEME } from '../constants';
+import { LASER_WAVELENGTHS, VERSION_LABELS, VERSION_NAMES, UI_THEME, DEFAULT_PERF_CONFIG } from '../constants';
 import { WallColorPicker } from './WallColorPicker';
 
 interface ControlsProps {
@@ -10,9 +10,11 @@ interface ControlsProps {
   activeWall: string;
   onActiveWallChange: (wall: string) => void;
   zDepth: number;
+  onResetPerf?: () => void;
+  onResetCamera?: () => void;
 }
 
-export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfig'>> = React.memo(({ config, onUpdateConfig }) => {
+export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfig' | 'onResetPerf' | 'onResetCamera'>> = React.memo(({ config, onUpdateConfig, onResetPerf, onResetCamera }) => {
   const handleShaderVersionChange = useCallback(
     (version: number) => {
       onUpdateConfig({ shaderVersion: version });
@@ -117,8 +119,38 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
           />
         </div>
 
-        {/* Right: Tribute Links */}
+        <div className="w-px h-5 md:h-6 mx-2 md:mx-3 shrink-0 hidden md:block" style={{ background: UI_THEME.surface.divider }} />
+
+        {/* Right: Resets + Tribute Links */}
         <div className="hidden md:flex items-center gap-2 ml-auto pl-2">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={onResetPerf}
+              aria-label="Reset performance settings"
+              title="Reset performance"
+              className="flex items-center justify-center w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+              style={{
+                background: UI_THEME.surface.glassHover,
+                color: UI_THEME.sakura[200],
+                borderColor: UI_THEME.surface.border,
+              }}
+            >
+              <RotateCcw size={10} />
+            </button>
+            <button
+              onClick={onResetCamera}
+              aria-label="Reset camera position"
+              title="Reset camera"
+              className="flex items-center justify-center w-7 h-7 rounded-full border cursor-pointer transition-all duration-200 hover:scale-110"
+              style={{
+                background: UI_THEME.surface.glassHover,
+                color: UI_THEME.sakura[200],
+                borderColor: UI_THEME.surface.border,
+              }}
+            >
+              <Home size={10} />
+            </button>
+          </div>
           <a
             href="https://github.com/sakurablush/riftpane"
             target="_blank"
@@ -237,7 +269,7 @@ export const BottomControls: React.FC<ControlsProps> = React.memo(({
                   key={nm}
                   onClick={() => handleWavelengthChange(nm)}
                   aria-label={`Select Laser Wavelength ${nm} nanometers`}
-                  className={`relative flex items-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[8px] md:text-[9px] font-bold tracking-widest transition-all duration-200 cursor-pointer border ${
+                  className={`relative inline-flex items-center justify-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[8px] md:text-[9px] font-bold tracking-widest transition-all duration-200 cursor-pointer border ${
                     isActive ? 'text-black' : ''
                   }`}
                   style={{
@@ -251,7 +283,7 @@ export const BottomControls: React.FC<ControlsProps> = React.memo(({
                     className="w-1 h-3 md:w-1.5 md:h-4 rounded-full shrink-0"
                     style={{ background: preset.color }}
                   />
-                  <span>{nm}nm</span>
+                  <span className="leading-none">{nm}nm</span>
                 </button>
               );
             })}

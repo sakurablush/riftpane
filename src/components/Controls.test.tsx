@@ -35,7 +35,7 @@ const mockConfig: SimulationConfig = {
 describe('TopControls Component', () => {
   it('renders version buttons with CodeOfReality font letters and updates on click', () => {
     const handleUpdate = vi.fn();
-    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} />);
+    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} />);
 
     expect(screen.getByText('Version')).toBeInTheDocument();
 
@@ -49,7 +49,7 @@ describe('TopControls Component', () => {
 
   it('renders performance sliders and handles slider changes', () => {
     const handleUpdate = vi.fn();
-    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} />);
+    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} />);
 
     const stepsSlider = screen.getByLabelText('Performance parameter Steps');
     const distSlider = screen.getByLabelText('Performance parameter Dist');
@@ -69,8 +69,12 @@ describe('TopControls Component', () => {
     expect(handleUpdate).toHaveBeenCalledWith({ sparkleIntensity: 3.0 });
   });
 
-  it('renders tribute links to GitHub and Code of Reality', () => {
-    render(<TopControls config={mockConfig} onUpdateConfig={vi.fn()} />);
+  it('renders reset buttons and tribute links', () => {
+    const handleUpdate = vi.fn();
+    render(<TopControls config={mockConfig} onUpdateConfig={handleUpdate} onResetPerf={vi.fn()} onResetCamera={vi.fn()} />);
+
+    expect(screen.getByLabelText('Reset performance settings')).toBeInTheDocument();
+    expect(screen.getByLabelText('Reset camera position')).toBeInTheDocument();
 
     const githubLink = screen.getByLabelText('Riftpane on GitHub');
     expect(githubLink).toBeInTheDocument();

@@ -9,9 +9,10 @@ interface LaserCanvasProps {
   config: SimulationConfig;
   wallColor: string;
   onZDepthChange: (z: number) => void;
+  resetKey?: number;
 }
 
-export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wallColor, onZDepthChange }) => {
+export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wallColor, onZDepthChange, resetKey }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Smoothed camera state (what's actually rendered)
@@ -42,6 +43,13 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
   useEffect(() => {
     onZDepthChange(targetZoomRef.current);
   }, [onZDepthChange]);
+
+  // Reset camera when resetKey changes (triggered by user reset button)
+  useEffect(() => {
+    targetLookRef.current = { x: 0, y: 0 };
+    targetZoomRef.current = UI_CONSTANTS.zoomMax * 0.4;
+    onZDepthChange(targetZoomRef.current);
+  }, [resetKey, onZDepthChange]);
 
   // Input handlers — set targets, don't directly modify smoothed state
   const handleMouseDown = useCallback((e: MouseEvent) => {
