@@ -1,7 +1,23 @@
 {
+  "$schema": "https://schemas.p5e.cc/metadata/v1",
   "name": "Riftpane",
-  "description": "Real-time WebGL volumetric laser-speckle cavern. Raymarched SDF art inspired by the Code of Reality community, rendered with GLSL fragment shaders.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_WEBGL"],
-  "tags": ["webgl", "glsl", "shader-art", "raymarching", "sdf", "generative-art", "volumetric", "laser", "speckle"]
+  "version": "0.1.0",
+  "description": "Real-time WebGL volumetric laser-speckle cavern. Raymarched SDF art rendered with GLSL fragment shaders, inspired by the Code of Reality community.",
+  "environment": "browser",
+  "capabilities": ["webgl"],
+  "tags": [
+    "webgl",
+    "glsl",
+    "shader-art",
+    "raymarching",
+    "sdf",
+    "generative-art",
+    "volumetric",
+    "laser",
+    "speckle",
+    "creative-coding",
+    "signed-distance-field",
+    "react",
+    "typescript"
+  ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "riftpane",
-  "version": "0.0.0",
-  "description": "GLSL raymarching + laser speckle art piece — a visual tribute to the Code of Reality community, not a scientific claim",
+  "version": "0.1.0",
+  "description": "Real-time WebGL volumetric laser-speckle cavern. Raymarched SDF art rendered with GLSL fragment shaders, inspired by the Code of Reality community.",
   "private": true,
   "packageManager": "npm@10.9.2",
   "keywords": [
@@ -17,10 +17,7 @@
     "speckle-pattern",
     "react",
     "typescript",
-    "vitest",
-    "fan-tribute",
-    "laser-art",
-    "procedural-graphics"
+    "vitest"
   ],
   "license": "MIT",
   "type": "module",
@@ -36,7 +33,6 @@
     "ci": "npm run lint && npm run test:run && npm run build"
   },
   "dependencies": {
-    "@google/genai": "^2.4.0",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "lucide-react": "^0.546.0",

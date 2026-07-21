@@ -1,5 +1,7 @@
 import { DEFAULT_FALLBACK_COLOR } from './constants';
 
+const HEX_CACHE_MAX_ENTRIES = 100;
+
 const hexCache = new Map<string, [number, number, number]>();
 
 export function hexToRgbVec3(hex: string): [number, number, number] {
@@ -19,7 +21,7 @@ export function hexToRgbVec3(hex: string): [number, number, number] {
       parseInt(result[3], 16) / 255,
     ];
     // Limit cache size to prevent unbounded memory growth if user picks custom colors rapidly
-    if (hexCache.size > 100) {
+      if (hexCache.size > HEX_CACHE_MAX_ENTRIES) {
       hexCache.clear();
     }
     hexCache.set(normalized, rgb);

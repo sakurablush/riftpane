@@ -33,7 +33,7 @@ export interface SimulationConfig {
   raymarchDistance: number; // 10 to 100 (default 60)
   snowIntensity: number; // 0.0 to 3.0 (default 0.3)
   sparkleIntensity: number; // 0.0 to 3.0 (default 1.0)
-  shaderVersion: number; // 1 or 2
+  shaderVersion: number; // current shader version (V1 only implemented)
 }
 
 export const WAVELENGTHS: Record<number, WavelengthPreset> = {

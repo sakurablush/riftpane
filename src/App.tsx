@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { LaserCanvas } from './components/LaserCanvas';
-import { TopControls, BottomControls } from './components/Controls';
+import { TopControls } from './components/TopControls';
+import { BottomControls } from './components/BottomControls';
 import { SimulationConfig } from './types';
 import { Eye, EyeOff } from 'lucide-react';
 import { DEFAULT_PERF_CONFIG, DEFAULT_Z_DEPTH, DEFAULT_WALL_COLOR, WALL_COLORS, UI_THEME } from './constants';

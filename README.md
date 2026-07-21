@@ -31,7 +31,7 @@
 
 ## What is this?
 
-Riftpane is a real-time WebGL renderer that reconstructs, as an art piece, the layered visual world reported by people who've looked into a diffracted red laser under DMT — a phenomenon documented for years by the **Code of Reality** community. Five hand-tuned shader "versions" explore different parts of that shared description: the raw split beam up close, a churning static wall behind it, a translucent membrane, a bird's-eye archipelago, and a distant skyline of glowing hollow architecture.
+Riftpane is a real-time WebGL renderer that reconstructs, as an art piece, the layered visual world reported by people who've looked into a diffracted red laser under DMT — a phenomenon documented for years by the **Code of Reality** community. The initial shader version explores one part of that shared description: an eye-level tunnel lined with hollow pyramids, a distant obelisk, curling wing-hooks, and a glyph-covered floor.
 
 It's built the way a demoscene or generative-art project is built: raymarched signed distance fields, procedural noise, and a lot of tuning by eye — not a scientific instrument, and not trying to be one.
 
@@ -62,17 +62,13 @@ This is art inspired by shared human testimony, full stop.
 
 ---
 
-## 🎨 The Five Scenes
+## 🎨 The Scene
 
 Each version is an independent artistic read of the same shared description — not five attempts at "accuracy," just five compositions.
 
 | # | Name | What you'll see |
-| :-: | :--- | :--- |
-| **V1** | Classic Cavern | Eye-level tunnel lined with hollow pyramids, a distant obelisk, curling wing-hooks, and a glyph-covered floor. |
-| **V2** | Monolithic Teeth | Rows of pyramid "teeth" flanking a central aisle, angled obelisks overhead, a sawtooth horizon, and drifting glass-pane slices catching the light. |
-| **V3** | Drone Archipelago | A steep bird's-eye view over organic floating islands, riding a rippling sea of falling light. |
-| **V4** | Soap-Bubble Membrane | A translucent membrane hovering mid-scene, refracting the architecture behind it, wrapped in dense vertical glyph-rain. |
-| **V5** | Winged Void | Volumetric red/orange fog, towering hollow columns, and wing-forms that hook sharply backward into the dark. |
+| | :--- | :--- |
+| | **Classic Cavern** | Eye-level tunnel lined with hollow pyramids, a distant obelisk, curling wing-hooks, and a glyph-covered floor. |
 
 ---
 

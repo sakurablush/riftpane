@@ -81,6 +81,9 @@ export const UI_THEME = {
   },
 } as const;
 
+// Note: sakura palette values are duplicated here as CSS variables in index.css
+// via Tailwind @theme. Keep both sides in sync when updating colors.
+
 export const DEFAULT_FALLBACK_COLOR: [number, number, number] = [0.02, 0.0, 0.0];
 export const MILLISECONDS_TO_SECONDS = 0.001;
 export const BYTE_TO_FLOAT = 1 / 255;

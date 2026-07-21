@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Palette, X, Heart } from 'lucide-react';
+import { Palette, X } from 'lucide-react';
 import { WALL_COLORS } from '../constants';
 import { UI_CONSTANTS } from '../constants';
 
