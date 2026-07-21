@@ -64,7 +64,7 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
-      const delta = -e.deltaY * UI_CONSTANTS.zoomSensitivity;
+      const delta = e.deltaY * UI_CONSTANTS.zoomSensitivity;
       targetZoomRef.current = Math.max(UI_CONSTANTS.zoomMin, Math.min(UI_CONSTANTS.zoomMax, targetZoomRef.current + delta));
       onZDepthChange(targetZoomRef.current);
     },

@@ -6,6 +6,11 @@ export interface WallColorOption {
 }
 
 export const WALL_COLORS: WallColorOption[] = [
+  { hex: '#2633d0', name: 'Sakura Indigo' },
+  { hex: '#1a1a2e', name: 'Cosmic Indigo' },
+  { hex: '#201030', name: 'Deep Violet' },
+  { hex: '#0f2027', name: 'Deep Emerald' },
+  { hex: '#101a1a', name: 'Dark Teal' },
   { hex: '#050000', name: 'Obsidian Black' },
   { hex: '#111111', name: 'Charcoal Matte' },
   { hex: '#1a1010', name: 'Dark Crimson' },
@@ -13,12 +18,8 @@ export const WALL_COLORS: WallColorOption[] = [
   { hex: '#1e110a', name: 'Sepia Dark' },
   { hex: '#221500', name: 'Amber Gold' },
   { hex: '#0a1a10', name: 'Forest Shadow' },
-  { hex: '#0f2027', name: 'Deep Emerald' },
-  { hex: '#101a1a', name: 'Dark Teal' },
   { hex: '#050510', name: 'Abyssal Blue' },
   { hex: '#090a1e', name: 'Midnight Navy' },
-  { hex: '#1a1a2e', name: 'Cosmic Indigo' },
-  { hex: '#201030', name: 'Deep Violet' },
   { hex: '#301020', name: 'Dark Amethyst' },
   { hex: '#200510', name: 'Maroon Shadow' },
   { hex: '#18181b', name: 'Zinc Oxide' },
@@ -30,7 +31,6 @@ export const WALL_COLORS: WallColorOption[] = [
   { hex: '#7c2d12', name: 'Rust Red' },
   { hex: '#0f172a', name: 'Night Sky' },
   { hex: '#262626', name: 'Neutral Dark' },
-  { hex: '#2633d0', name: 'Sakura Indigo' },
 ];
 
 export const DEFAULT_WALL_COLOR = '#2633d0';
@@ -41,7 +41,7 @@ export const UI_CONSTANTS = {
   wallColorDropdownZIndex: 100,
   zoomMin: -20.0,
   zoomMax: 30.0,
-  zoomSensitivity: 0.004, // 2x more sensitive for touchpad smoothness
+  zoomSensitivity: 0.008, // 2x faster for comfortable touchpad feel
   mouseLookSensitivity: 0.005,
   smoothing: {
     look: 0.12,   // Higher = snappier camera follow
