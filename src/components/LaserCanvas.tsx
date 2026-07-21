@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { SimulationConfig, WAVELENGTHS } from '../types';
 import { hexToRgbVec3 } from '../utils';
 import { getVertexShaderSource, getFragmentShaderSource } from '../shaders';
+import { generateFontAtlas, ATLAS_INFO } from '../utils/fontAtlas';
+import { ATLAS_UNIFORM_VALUES, FONT_ATLAS_UNIFORMS, UI_CONSTANTS, FULLSCREEN_QUAD_VERTICES, MILLISECONDS_TO_SECONDS } from '../constants';
 
 interface LaserCanvasProps {
   config: SimulationConfig;
@@ -42,8 +44,8 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDownRef.current) {
-      lookRef.current.x += (e.clientX - lastMRef.current.x) * 0.005;
-      lookRef.current.y -= (e.clientY - lastMRef.current.y) * 0.005;
+      lookRef.current.x += (e.clientX - lastMRef.current.x) * UI_CONSTANTS.mouseLookSensitivity;
+      lookRef.current.y -= (e.clientY - lastMRef.current.y) * UI_CONSTANTS.mouseLookSensitivity;
       lastMRef.current = { x: e.clientX, y: e.clientY };
     }
   }, []);
@@ -51,8 +53,8 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
-      zoomRef.current *= 1.0 + e.deltaY * 0.002;
-      zoomRef.current = Math.max(0.1, Math.min(30.0, zoomRef.current));
+      zoomRef.current *= 1.0 + e.deltaY * UI_CONSTANTS.zoomSensitivity;
+      zoomRef.current = Math.max(UI_CONSTANTS.zoomMin, Math.min(UI_CONSTANTS.zoomMax, zoomRef.current));
       onZDepthChange(zoomRef.current);
     },
     [onZDepthChange]
@@ -83,6 +85,30 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
 
     const gl = canvas.getContext('webgl');
     if (!gl) return;
+
+    // Generate and upload font atlas texture
+    let atlasTexture: WebGLTexture | null = null;
+    let atlasReady = false;
+
+    const uploadFontAtlas = async () => {
+      try {
+        const atlasCanvas = await generateFontAtlas();
+        atlasTexture = gl.createTexture() ?? null;
+        if (!atlasTexture) return;
+
+        gl.bindTexture(gl.TEXTURE_2D, atlasTexture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlasCanvas);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        atlasReady = true;
+      } catch (error) {
+        console.error('Failed to generate font atlas:', error);
+      }
+    };
+
+    uploadFontAtlas();
 
     // Handle canvas dimensions on resize rather than every animation frame
     const handleResize = () => {
@@ -129,7 +155,7 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(
       gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      new Float32Array(FULLSCREEN_QUAD_VERTICES),
       gl.STATIC_DRAW
     );
 
@@ -149,6 +175,10 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
       uMaxDist: gl.getUniformLocation(prog, 'uMaxDist'),
       uSnow: gl.getUniformLocation(prog, 'uSnow'),
       uSparkle: gl.getUniformLocation(prog, 'uSparkle'),
+      uFontAtlas: gl.getUniformLocation(prog, FONT_ATLAS_UNIFORMS.uFontAtlas),
+      uAtlasGrid: gl.getUniformLocation(prog, FONT_ATLAS_UNIFORMS.uAtlasGrid),
+      uMappedCharCount: gl.getUniformLocation(prog, FONT_ATLAS_UNIFORMS.uMappedCharCount),
+      uKatakanaCount: gl.getUniformLocation(prog, FONT_ATLAS_UNIFORMS.uKatakanaCount),
     };
 
     let anim: number;
@@ -160,7 +190,16 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
 
       const dt = now - lastTime;
       lastTime = now;
-      timeRef.current += dt * 0.001;
+      timeRef.current += dt * MILLISECONDS_TO_SECONDS;
+
+      if (atlasReady && atlasTexture) {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, atlasTexture);
+        gl.uniform1i(uniforms.uFontAtlas, 0);
+        gl.uniform2f(uniforms.uAtlasGrid, ATLAS_UNIFORM_VALUES.grid[0], ATLAS_UNIFORM_VALUES.grid[1]);
+        gl.uniform1f(uniforms.uMappedCharCount, ATLAS_UNIFORM_VALUES.mappedCount);
+        gl.uniform1f(uniforms.uKatakanaCount, ATLAS_UNIFORM_VALUES.katakanaCount);
+      }
 
       gl.uniform1f(uniforms.uTime, timeRef.current);
       gl.uniform2f(uniforms.uRes, canvas.width, canvas.height);
@@ -189,6 +228,7 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
       cancelAnimationFrame(anim);
       window.removeEventListener('resize', handleResize);
       if (prog) gl.deleteProgram(prog);
+      if (atlasTexture) gl.deleteTexture(atlasTexture);
     };
   }, [config.shaderVersion]);
 
@@ -196,8 +236,7 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
     <canvas
       ref={canvasRef}
       data-testid="laser-canvas"
-      className="absolute inset-0 w-full h-full block z-10"
-      style={{ cursor: 'grab' }}
+      className="absolute inset-0 w-full h-full block z-10 cursor-grab"
     />
   );
 });

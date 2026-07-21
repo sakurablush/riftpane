@@ -1,0 +1,60 @@
+name: CodeQL
+
+# GitHub CodeQL code scanning is FREE for public repositories.
+# It runs on push to main/master, on PRs, and weekly to catch newly
+# disclosed vulnerabilities in the codebase.
+#
+# Reference: https://docs.github.com/en/code-security/code-scanning
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    # Mondays at 06:00 UTC — staggered vs. Dependabot (also Monday)
+    # so the runner pool isn't saturated at once.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  actions: read
+  contents: read
+  # Required to upload SARIF results to the Security tab.
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: typescript
+            # Build-mode runs the project's build to inform taint analysis.
+            build-mode: none
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          # Use the security-and-quality query pack to also catch
+          # maintainability issues (unused vars, etc.).
+          queries: security-and-quality
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

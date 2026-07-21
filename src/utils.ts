@@ -1,8 +1,10 @@
+import { DEFAULT_FALLBACK_COLOR } from './constants';
+
 const hexCache = new Map<string, [number, number, number]>();
 
 export function hexToRgbVec3(hex: string): [number, number, number] {
   if (!hex || typeof hex !== 'string') {
-    return [0.02, 0.0, 0.0];
+    return DEFAULT_FALLBACK_COLOR;
   }
   
   const normalized = hex.trim().toLowerCase();
@@ -24,5 +26,5 @@ export function hexToRgbVec3(hex: string): [number, number, number] {
     return rgb;
   }
 
-  return [0.02, 0.0, 0.0];
+  return DEFAULT_FALLBACK_COLOR;
 }

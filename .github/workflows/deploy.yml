@@ -1,49 +1,82 @@
-name: Riftpane Deploy GitHub Pages
+name: Deploy Riftpane to GitHub Pages
+
+# Triggers: every push to main/master, plus manual trigger.
+# PRs are intentionally NOT deployed (they run through ci.yml).
+#
+# IMPORTANT (GitHub Free plan):
+#   GitHub Pages is FREE for PUBLIC repositories.
+#   Private repositories on the Free plan CANNOT use GitHub Pages.
+#   This workflow assumes the repo is public — verify in repo Settings -> Pages.
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
+# Least-privilege permissions for an OIDC-based Pages deploy.
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Never run two deploys in parallel — Pages deployments must be sequential.
 concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # Current Active LTS
+          cache: 'npm'
+
+      - name: Align npm with packageManager field
+        run: npm i -g npm@10.9.2
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      # We deliberately do NOT re-run lint/typecheck/test/audit here.
+      # The `CI` workflow (ci.yml) already gates every commit on the same
+      # `npm run ci` script. Re-running it would:
+      #   1. Duplicate work on a second runner.
+      #   2. Drift over time as the two pipelines evolve independently.
+      #
+      # This relies on branch protection requiring the `CI` check before
+      # merge. To restore: Settings -> Branches -> Branch protection rules
+      # -> "Require status checks to pass before merging" -> enable `CI`.
+      #
+      # `npm run build` runs `vite build`, which still catches
+      # TypeScript errors as a defense-in-depth measure.
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
   deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Build WebGL App
-        run: npm run build
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

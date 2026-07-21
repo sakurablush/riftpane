@@ -45,4 +45,14 @@ describe('utils: hexToRgbVec3', () => {
     const res2 = hexToRgbVec3('#123456');
     expect(res1).toBe(res2); // Referentially equal due to caching
   });
+
+  it('clears cache when size exceeds limit to prevent memory growth', () => {
+    // Fill cache beyond limit
+    for (let i = 0; i < 101; i++) {
+      hexToRgbVec3(`#${i.toString(16).padStart(6, '0')}`);
+    }
+    // After overflow, lookup of original should still work (cache was cleared, re-computed)
+    const result = hexToRgbVec3('#123456');
+    expect(result).toEqual([0x12 / 255, 0x34 / 255, 0x56 / 255]);
+  });
 });

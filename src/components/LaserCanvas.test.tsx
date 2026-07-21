@@ -1,8 +1,17 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import { LaserCanvas } from './LaserCanvas';
 import { SimulationConfig } from '../types';
+
+// Use fake timers to control the requestAnimationFrame loop
+beforeAll(() => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+});
+
+afterEach(() => {
+  vi.clearAllTimers();
+});
 
 const mockConfig: SimulationConfig = {
   wavelength: 650,
@@ -26,7 +35,7 @@ const mockConfig: SimulationConfig = {
   showArchitecture: true,
   raymarchSteps: 90,
   raymarchDistance: 60,
-  snowIntensity: 1.0,
+  snowIntensity: 0.3,
   sparkleIntensity: 1.0,
   shaderVersion: 1,
 };
@@ -76,7 +85,19 @@ describe('LaserCanvas Component', () => {
     );
 
     const updatedConfig = { ...mockConfig, shaderVersion: 2 };
-    rerender(<LaserCanvas config={updatedConfig} wallColor="#050000" onZDepthChange={vi.fn()} />);
+    rerender(<LaserCanvas config={updatedConfig} wallColor="#050000" onZDepthChange={vi.fn()} />
+    );
+  });
+
+  it('runs render loop and cleans up timers on unmount', async () => {
+    const { unmount } = render(<LaserCanvas config={mockConfig} wallColor="#050000" onZDepthChange={vi.fn()} />);
+
+    // Advance timers to trigger the rAF callbacks
+    await vi.advanceTimersByTimeAsync(100);
+
+    expect(screen.getByTestId('laser-canvas')).toBeInTheDocument();
+
+    unmount();
   });
 
   it('gracefully handles missing canvas or null webgl context', () => {

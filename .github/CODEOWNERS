@@ -1,9 +1,20 @@
-# These owners will be the default owners for everything in the repo.
-* @riftpane-org/core-team
+# CODEOWNERS — automatically requests reviews from the listed owners
+# when a PR touches the matching paths.
+#
+# On the GitHub Free plan, CODEOWNERS are not enforced for branch protection
+# unless the repo also has branch protection rules. They DO, however, work
+# as PR-review request signals regardless of plan.
 
-# Critical WebGL / GLSL shader code
-/src/shaders.ts @riftpane-org/core-team
-/src/components/LaserCanvas.tsx @riftpane-org/core-team
+# Default owners for everything in the repo.
+*                           @sakurablush
 
-# GitHub Workflows & CI Configuration
-/.github/ @riftpane-org/core-team
+# Workflow and CI/CD — be careful, breaks deploys.
+/.github/                   @sakurablush
+
+# Security-sensitive: secrets, key handling, pentest results.
+SECURITY.md                 @sakurablush
+PENTEST_REPORT.md           @sakurablush
+
+# Core WebGL / shader code — review required for rendering changes.
+/src/shaders.ts             @sakurablush
+/src/components/LaserCanvas.tsx @sakurablush

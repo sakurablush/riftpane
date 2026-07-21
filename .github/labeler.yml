@@ -1,0 +1,63 @@
+# Labeler rules consumed by .github/workflows/labeler.yml
+# actions/labeler@v6 schema — label names are top-level keys.
+# https://github.com/actions/labeler
+
+# Workflows and CI/CD
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+infrastructure:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+# Dependencies
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'package-lock.json'
+
+# Source code
+code:
+  - changed-files:
+      - any-glob-to-any-file: 'src/**'
+
+# Tests
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'
+          - '**/*.test.ts'
+          - '**/*.spec.ts'
+
+# Shader code
+shaders:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/shaders.ts'
+          - 'src/components/LaserCanvas.tsx'
+
+# Assets
+assets:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'assets/**'
+          - 'src/**/*.otf'
+          - 'src/**/*.ttf'
+
+# Docs
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - '*.md'
+          - 'SECURITY.md'
+          - 'PENTEST_REPORT.md'
+
+# Security
+security:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'SECURITY.md'
+          - 'PENTEST_REPORT.md'

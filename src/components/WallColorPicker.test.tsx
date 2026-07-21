@@ -72,6 +72,32 @@ describe('WallColorPicker Component', () => {
     expect(screen.queryByRole('dialog', { name: 'Wall color selector' })).not.toBeInTheDocument();
   });
 
+  it('allows typing custom hex and submits on Enter', () => {
+    const handleChange = vi.fn();
+    render(<WallColorPicker activeWall="#050000" onActiveWallChange={handleChange} />);
+
+    fireEvent.click(screen.getByLabelText('Open full wall color palette'));
+
+    const hexInput = screen.getByLabelText('Enter custom hex color');
+    fireEvent.change(hexInput, { target: { value: 'aabbcc' } });
+    fireEvent.keyDown(hexInput, { key: 'Enter' });
+
+    expect(handleChange).toHaveBeenCalledWith('#aabbcc');
+  });
+
+  it('strips invalid characters from custom hex input', () => {
+    const handleChange = vi.fn();
+    render(<WallColorPicker activeWall="#050000" onActiveWallChange={handleChange} />);
+
+    fireEvent.click(screen.getByLabelText('Open full wall color palette'));
+
+    const hexInput = screen.getByLabelText('Enter custom hex color');
+    fireEvent.change(hexInput, { target: { value: 'gg1234' } });
+
+    expect(handleChange).not.toHaveBeenCalled();
+    expect(hexInput).toHaveValue('1234');
+  });
+
   it('closes palette popover when clicking outside container', () => {
     const handleChange = vi.fn();
     render(

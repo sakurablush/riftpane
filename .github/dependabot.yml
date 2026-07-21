@@ -1,9 +1,44 @@
 version: 2
+
+# Dependabot is FREE for public repositories on the GitHub Free plan.
+# It will:
+#   - Open weekly PRs for outdated dependencies.
+#   - Auto-group security updates so they land fast and isolated.
+#   - Label every PR so it's easy to triage in the Actions / Projects board.
+
 updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
     open-pull-requests-limit: 10
+    target-branch: "main"
     commit-message:
-      prefix: "chore(deps):"
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "automated"
+    groups:
+      production-minor:
+        applies-to: "version-updates"
+        patterns:
+          - "vite"
+          - "vitest"
+          - "typescript"
+          - "tailwindcss"
+          - "@tailwindcss/*"
+          - "@vitejs/*"
+          - "react"
+          - "react-dom"
+      linting-and-formatting:
+        applies-to: "version-updates"
+        patterns:
+          - "eslint*"
+          - "prettier*"
+      security-updates:
+        applies-to: "security-updates"
+        patterns:
+          - "*"

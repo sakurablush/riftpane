@@ -17,7 +17,7 @@ export const VERSION_NAMES: Record<number, string> = {
   2: 'V2: Monolithic Teeth & Glass Slices',
   3: 'V3: Drone Archipelago & Wavy Sea',
   4: 'V4: Soap Bubble Membrane & Katakana Rain',
-  5: 'V5: Curved Winged Void & Volumetric Cavern',
+  5: 'V5: Winged Void & Volumetric Cavern',
 };
 
 export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfig'>> = React.memo(({ config, onUpdateConfig }) => {
@@ -30,10 +30,10 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
 
   return (
     <div className="absolute top-6 left-1/2 -translate-x-1/2 pointer-events-auto z-50 w-full max-w-6xl px-4 md:px-6">
-      <div className="bg-[#0a0a0a]/40 border border-zinc-800/60 rounded-full py-2 px-2 md:px-3 flex items-center justify-between shadow-2xl backdrop-blur-md">
+      <div className="bg-[#0a0a0a]/40 border border-zinc-800/60 rounded-full py-2 px-2.5 md:px-3 flex items-center shadow-2xl backdrop-blur-md">
         {/* Left: Versions */}
-        <div className="flex items-center gap-2 pl-2 md:pl-4">
-          <span className="text-zinc-400 text-[9px] md:text-[10px] tracking-[0.2em] font-bold uppercase hidden sm:block mr-2">
+        <div className="flex items-center gap-2 pl-1 md:pl-2">
+          <span className="text-zinc-400 text-[9px] md:text-[10px] tracking-[0.2em] font-bold uppercase hidden sm:block mr-1">
             Version
           </span>
           <div className="flex items-center gap-1.5 md:gap-2">
@@ -55,11 +55,11 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
           </div>
         </div>
 
-        <div className="w-px h-6 bg-zinc-700/50 mx-2 hidden lg:block" />
+        <div className="w-px h-5 md:h-6 bg-zinc-700/50 mx-2 md:mx-3 shrink-0" />
 
         {/* Center: Performance Controls */}
-        <div className="hidden lg:flex items-center justify-center flex-1 gap-2 xl:gap-4">
-          <div className="flex items-center gap-1.5 mr-2">
+        <div className="hidden md:flex items-center gap-2 lg:gap-3">
+          <div className="flex items-center gap-1.5">
             <Settings2 size={12} className="text-zinc-400" />
             <span className="text-zinc-100 text-[9px] font-bold tracking-[0.2em]">PERF</span>
           </div>
@@ -82,7 +82,7 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
           <PerfSlider
             label="Snow"
             min={0}
-            max={8}
+            max={3}
             step={0.1}
             value={config.snowIntensity}
             onChange={useCallback((v: number) => onUpdateConfig({ snowIntensity: v }), [onUpdateConfig])}
@@ -90,14 +90,14 @@ export const TopControls: React.FC<Pick<ControlsProps, 'config' | 'onUpdateConfi
           <PerfSlider
             label="Spark"
             min={0}
-            max={8}
+            max={3}
             step={0.1}
             value={config.sparkleIntensity}
             onChange={useCallback((v: number) => onUpdateConfig({ sparkleIntensity: v }), [onUpdateConfig])}
           />
         </div>
 
-        <div className="w-px h-6 bg-zinc-700/50 mx-2 hidden lg:block" />
+        <div className="w-px h-5 md:h-6 bg-zinc-700/50 mx-2 md:mx-3 shrink-0 hidden md:block" />
       </div>
     </div>
   );
@@ -120,8 +120,8 @@ const PerfSlider = React.memo(({
   value: number;
   onChange: (v: number) => void;
 }) => (
-  <div className="flex items-center gap-2 bg-zinc-900/40 px-3 py-1.5 rounded-full">
-    <span className="text-zinc-400 text-[9px] tracking-widest uppercase font-bold w-10 text-right">{label}</span>
+  <div className="flex items-center gap-1.5 bg-zinc-900/40 px-2.5 py-1.5 rounded-full">
+    <span className="text-zinc-400 text-[9px] tracking-widest uppercase font-bold w-8 text-right">{label}</span>
     <input
       type="range"
       min={min}
@@ -130,7 +130,7 @@ const PerfSlider = React.memo(({
       value={value}
       aria-label={`Performance parameter ${label}`}
       onChange={(e) => onChange(parseFloat(e.target.value))}
-      className="w-12 xl:w-16 accent-zinc-300 h-1 cursor-pointer"
+      className="w-10 lg:w-14 accent-zinc-300 h-1 cursor-pointer"
     />
   </div>
 ));
@@ -153,9 +153,9 @@ export const BottomControls: React.FC<ControlsProps> = React.memo(({
 
   return (
     <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 pointer-events-auto z-50 w-full max-w-6xl px-4 md:px-6 flex justify-center">
-      <div className="bg-[#0a0a0a]/40 border border-zinc-800/60 rounded-full p-2 flex items-center shadow-2xl backdrop-blur-md overflow-x-auto no-scrollbar max-w-full">
-        {/* Laser Wavelength Selector */}
-        <div className="flex items-center gap-2 md:gap-3 pl-2 md:pl-4 shrink-0">
+      <div className="bg-[#0a0a0a]/40 border border-zinc-800/60 rounded-full py-2 px-2.5 md:px-3 flex items-center shadow-2xl backdrop-blur-md max-w-full">
+        {/* Left: Laser Wavelength Selector */}
+        <div className="flex items-center gap-2 md:gap-3 pl-1 md:pl-2">
           <span className="text-zinc-500 text-[9px] tracking-[0.2em] font-bold mt-0.5 hidden sm:block">LASER</span>
           <div className="flex items-center gap-1 md:gap-1.5">
             {LASER_WAVELENGTHS.map((nm) => (
@@ -175,14 +175,15 @@ export const BottomControls: React.FC<ControlsProps> = React.memo(({
           </div>
         </div>
 
-        <div className="w-px h-5 md:h-6 bg-zinc-700/50 mx-3 md:mx-4 shrink-0" />
+        <div className="w-px h-5 md:h-6 bg-zinc-700/50 mx-2 md:mx-3 shrink-0" />
 
-        {/* 24+ Wall Colors Picker */}
+        {/* Center: Wall Colors */}
         <WallColorPicker activeWall={activeWall} onActiveWallChange={onActiveWallChange} />
 
-        <div className="w-px h-5 md:h-6 bg-zinc-700/50 mx-3 md:mx-4 shrink-0 hidden lg:block" />
+        <div className="w-px h-5 md:h-6 bg-zinc-700/50 mx-2 md:mx-3 shrink-0 hidden sm:block" />
 
-        <div className="hidden lg:flex items-center pr-4 shrink-0">
+        {/* Right: Info / Z-Depth */}
+        <div className="hidden sm:flex items-center pr-1 md:pr-2">
           <div className="flex flex-col items-end justify-center gap-0.5">
             <span className="text-zinc-500 text-[7px] md:text-[8px] tracking-[0.2em] uppercase leading-none">
               HOLD CLICK TO LOOK // SCROLL TO ZOOM

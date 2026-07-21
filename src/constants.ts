@@ -34,9 +34,53 @@ export const WALL_COLORS: WallColorOption[] = [
 
 export const DEFAULT_Z_DEPTH = 1.5;
 
+export const UI_CONSTANTS = {
+  wallColorDropdownOffset: 8,
+  wallColorDropdownZIndex: 100,
+  zoomMin: 0.1,
+  zoomMax: 30.0,
+  zoomSensitivity: 0.002,
+  mouseLookSensitivity: 0.005,
+} as const;
+
+export const DEFAULT_FALLBACK_COLOR: [number, number, number] = [0.02, 0.0, 0.0];
+export const MILLISECONDS_TO_SECONDS = 0.001;
+
+export const FULLSCREEN_QUAD_VERTICES = [
+  -1, -1,
+   1, -1,
+  -1,  1,
+  -1,  1,
+   1, -1,
+   1,  1,
+] as const;
+
 export const DEFAULT_PERF_CONFIG = {
   raymarchSteps: 90,
   raymarchDistance: 60,
-  snowIntensity: 1.0,
+  snowIntensity: 0.3,
   sparkleIntensity: 1.0,
 };
+
+export const MAPPED_CHARS = 'abcdefghijklmnopqrstuvwxyz1234';
+export const KATAKANA_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+
+export const ATLAS_COLS = 8;
+export const ATLAS_ROWS = 10;
+export const CHAR_CELL_SIZE = 64;
+export const MAPPED_CHAR_COUNT = MAPPED_CHARS.length;
+export const KATAKANA_CHAR_COUNT = KATAKANA_CHARS.length;
+export const TOTAL_CHAR_COUNT = MAPPED_CHAR_COUNT + KATAKANA_CHAR_COUNT;
+
+export const FONT_ATLAS_UNIFORMS = {
+  uFontAtlas: 'uFontAtlas',
+  uAtlasGrid: 'uAtlasGrid',
+  uMappedCharCount: 'uMappedCharCount',
+  uKatakanaCount: 'uKatakanaCount',
+} as const;
+
+export const ATLAS_UNIFORM_VALUES = {
+  grid: [ATLAS_COLS, ATLAS_ROWS] as [number, number],
+  mappedCount: MAPPED_CHAR_COUNT,
+  katakanaCount: KATAKANA_CHAR_COUNT,
+} as const;

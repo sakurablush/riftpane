@@ -31,8 +31,8 @@ export interface SimulationConfig {
   // Graphics & Performance settings
   raymarchSteps: number; // 10 to 120 (default 90)
   raymarchDistance: number; // 10 to 100 (default 60)
-  snowIntensity: number; // 0.0 to 1.0 (default 1.0)
-  sparkleIntensity: number; // 0.0 to 1.0 (default 1.0)
+  snowIntensity: number; // 0.0 to 3.0 (default 0.3)
+  sparkleIntensity: number; // 0.0 to 3.0 (default 1.0)
   shaderVersion: number; // 1 or 2
 }
 

@@ -1,37 +1,71 @@
-name: Riftpane CI
+name: CI
+
+# Triggers: every push to main/master + every PR targeting those branches.
+# Uses minimal scopes (contents: read) for least privilege.
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
+  workflow_dispatch:
 
+# Cancel superseded PR runs to save Actions minutes and runner concurrency slots.
+# For pushes to main/master we keep history, so cancel-in-progress is false there.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Default to read-only; individual steps that need more must opt in.
 permissions:
   contents: read
 
+# Hard ceiling per job — protects the runner budget and prevents
+# runaway hangs.
 jobs:
-  build-and-test:
-    name: Lint, Test & Build
+  ci:
+    name: Lint · Typecheck · Test · Build · Audit
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '22' # Current Active LTS (since Oct 2024)
           cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm ci
+      # Match package.json "packageManager" — npm 11+ resolves optional peers
+      # differently and can desync the lockfile from npm 10 used on CI.
+      - name: Align npm with packageManager field
+        run: npm i -g npm@10.9.2
 
-      - name: Run Typecheck & Linter
-        run: npm run lint
+      - name: Install dependencies (clean, reproducible)
+        run: npm ci --no-audit --no-fund
 
-      - name: Run Unit Tests
-        run: npm run test
+      # Single source of truth: the `ci` script in package.json defines the
+      # shared gate (lint + test + build + audit). Keep both
+      # this workflow and the PR template aligned on `npm run ci`.
+      - name: Lint · typecheck · test · audit
+        run: npm run ci
 
-      - name: Build Production Distribution
+      # CI-only: build (not run by `npm run ci` because deploy.yml does its
+      # own build) and produce the coverage report for the artifact.
+      - name: Build production bundle
         run: npm run build
+
+      - name: Generate coverage report
+        run: npm run test:coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          # 30 days is the max retention allowed for public repos on the Free plan.
+          retention-days: 30
+          if-no-files-found: ignore

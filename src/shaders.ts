@@ -26,17 +26,36 @@ export const getFragmentShaderSource = (shaderVersion: number) => `
       }
 
       // Katakana - denser and crisper
-      float getKatakana(vec2 uv, float seed) {
+      uniform sampler2D uFontAtlas;
+      uniform vec2 uAtlasGrid;
+      uniform float uMappedCharCount;
+      uniform float uKatakanaCount;
+
+      float sampleFont(vec2 uv, float charIndex) {
+        vec2 cellSize = 1.0 / uAtlasGrid;
+        vec2 cellPos = vec2(
+          mod(charIndex, uAtlasGrid.x),
+          floor(charIndex / uAtlasGrid.x)
+        ) * cellSize;
+        vec2 localUv = fract(uv);
+        vec2 atlasUv = cellPos + localUv * cellSize;
+        return texture2D(uFontAtlas, atlasUv).r;
+      }
+
+      float getCodeGlyph(vec2 uv, float seed) {
         vec2 g = fract(uv * 2.0);
         vec2 id = floor(uv * 2.0);
-        float h = hash(id + seed);
-        float s = 0.0;
-        if (h > 0.85) s = step(0.1, abs(g.x - 0.5)) * step(0.7, g.y); 
-        else if (h > 0.7) s = step(0.8, g.x) + step(0.1, abs(g.y - 0.45)) * step(0.4, g.x);
-        else if (h > 0.55) s = step(abs(g.x - g.y), 0.06) + step(abs(g.x + g.y - 1.0), 0.06);
-        else if (h > 0.4) s = step(0.1, abs(g.x - 0.35)) * step(0.8, g.y);
-        else s = step(0.8, g.x) * step(0.2, g.y) + step(0.8, g.y) * step(0.2, g.x);
-        return s * step(0.02, g.x) * step(g.x, 0.98) * step(0.02, g.y) * step(g.y, 0.98);
+        float h2 = hash(id + seed + 99.0);
+        float h3 = hash(id + seed + 199.0);
+
+        float charIndex;
+        if (h2 < 0.3) {
+          charIndex = floor(h3 * uMappedCharCount);
+        } else {
+          charIndex = uMappedCharCount + floor(h3 * uKatakanaCount);
+        }
+
+        return sampleFont(g, charIndex);
       }
 
       float sdHollowPyramid(vec3 p, float h) {
@@ -85,7 +104,7 @@ ${shaderVersion === 1 ? `
           
           float d = min(d1, min(d2, min(d3, dFloor)));
           if(d < 0.001) {
-            float glyphs = getKatakana(p.xy * 25.0, 1.23) + getKatakana(p.yz * 25.0, 4.56);
+            float glyphs = getCodeGlyph(p.xy * 25.0, 1.23) + getCodeGlyph(p.yz * 25.0, 4.56);
             if (d == dFloor) {
                 glyphs += noise(p.xz * 10.0); // speckle the floor
             }
@@ -203,12 +222,12 @@ ${shaderVersion === 1 ? `
           // Transparent glass pane slices along Z
           float zSlice = abs(fract(p.z * 0.4) - 0.5);
           if (zSlice < 0.02) {
-            float glassGlint = getKatakana(p.xy * 30.0, floor(p.z * 0.4));
+            float glassGlint = getCodeGlyph(p.xy * 30.0, floor(p.z * 0.4));
             accum += color * glassGlint * 0.12 * exp(-t * 0.04);
           }
 
           if(d < 0.0015) {
-            float glyphs = getKatakana(p.xy * 28.0, 2.0) + getKatakana(p.yz * 28.0, 4.0);
+            float glyphs = getCodeGlyph(p.xy * 28.0, 2.0) + getCodeGlyph(p.yz * 28.0, 4.0);
             float edgeGlow = exp(-d * 120.0);
             vec3 warmOrange = vec3(1.0, 0.45, 0.08);
             vec3 hitCol = mix(color, warmOrange, 0.35) * (glyphs * 1.6 + edgeGlow) * exp(-t * 0.05) * 4.5;
@@ -292,7 +311,7 @@ ${shaderVersion === 1 ? `
           float d = min(islands, min(sea, wings));
 
           if(d < 0.002) {
-            float glyphs = getKatakana(p.xz * 22.0 + time * 0.5, 3.14);
+            float glyphs = getCodeGlyph(p.xz * 22.0 + time * 0.5, 3.14);
             float foam = noise(p.xz * 15.0 + time);
             vec3 warmCore = vec3(1.0, 0.32, 0.04);
 
@@ -371,7 +390,7 @@ ${shaderVersion === 1 ? `
           float d = min(obelisks, pyramids);
 
           if(d < 0.002) {
-            float codeField = getKatakana(p.xy * 38.0 + vec2(0.0, time * 1.5), 5.5);
+            float codeField = getCodeGlyph(p.xy * 38.0 + vec2(0.0, time * 1.5), 5.5);
             vec3 warmOrange = vec3(1.0, 0.38, 0.02);
             return mix(color, warmOrange, 0.5) * max(0.2, codeField * 2.8) * exp(-t * 0.05) * 5.2;
           }
@@ -397,7 +416,7 @@ ${shaderVersion === 1 ? `
 
         // Microscopic Katakana CRT pixel rain
         vec2 rainUv = uv * vec2(120.0, 800.0) + vec2(0.0, time * 22.0);
-        float katakanaRain = hash(floor(rainUv)) * getKatakana(uv * 50.0 + vec2(0.0, time * 3.0), 8.1);
+        float katakanaRain = hash(floor(rainUv)) * getCodeGlyph(uv * 50.0 + vec2(0.0, time * 3.0), 8.1);
         vec3 rainCode = lCol * katakanaRain * 2.0 * uSnow;
 
         float tSurf = -ro.z / rd.z;
@@ -460,7 +479,7 @@ ${shaderVersion === 1 ? `
           accum += mix(color, warmOrange, sin(p.z * 0.25) * 0.5 + 0.5) * volGlow * exp(-t * 0.045);
 
           if(d < 0.0015) {
-            float katakanaCode = getKatakana(p.xy * 35.0, 7.89);
+            float katakanaCode = getCodeGlyph(p.xy * 35.0, 7.89);
             float rimLight = pow(1.0 - abs(dot(rd, vec3(0.0, 1.0, 0.0))), 3.0);
             vec3 surfaceCol = mix(color, warmOrange, 0.6) * (katakanaCode * 2.2 + rimLight * 1.8) * exp(-t * 0.05) * 6.0;
             return accum + surfaceCol;

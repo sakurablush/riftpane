@@ -8,29 +8,37 @@ describe('App Component Integration', () => {
     render(<App />);
 
     expect(screen.getByTestId('laser-canvas')).toBeInTheDocument();
-    expect(screen.getByText('Version')).toBeInTheDocument();
-    expect(screen.getByText('LASER')).toBeInTheDocument();
-    expect(screen.getByText('WALL')).toBeInTheDocument();
+    expect(screen.getAllByText('Version').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('LASER').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('WALL').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('allows switching shader versions, laser wavelengths, and wall colors', () => {
+  it('switches shader versions, laser wavelengths, and wall colors', () => {
     render(<App />);
 
-    // Switch shader version to V2
     const v2Btn = screen.getByLabelText(/Select Shader Version 2/);
     fireEvent.click(v2Btn);
     expect(v2Btn.className).toContain('bg-zinc-200');
 
-    // Switch laser wavelength to 532nm
     const laser532 = screen.getByLabelText('Select Laser Wavelength 532 nanometers');
     fireEvent.click(laser532);
     expect(laser532.className).toContain('bg-zinc-200');
 
-    // Open wall color palette and choose another color
-    const paletteBtn = screen.getByLabelText('Open full wall color palette');
-    fireEvent.click(paletteBtn);
+    const paletteBtns = screen.getAllByLabelText('Open full wall color palette');
+    fireEvent.click(paletteBtns[0]);
 
-    const abssalBlueBtn = screen.getByLabelText('Select wall color Abyssal Blue');
-    fireEvent.click(abssalBlueBtn);
+    const abyssalBlueBtn = screen.getByLabelText('Select wall color Abyssal Blue');
+    fireEvent.click(abyssalBlueBtn);
+  });
+
+  it('updates z-depth via wheel interaction', () => {
+    render(<App />);
+    const canvas = screen.getByTestId('laser-canvas');
+    const initialDepthText = screen.getByText(/Z-DEPTH:/).textContent;
+
+    fireEvent.wheel(canvas, { deltaY: 100 });
+
+    expect(screen.getByText(/Z-DEPTH:/)).toBeInTheDocument();
+    expect(screen.getByText(/Z-DEPTH:/).textContent).not.toBe(initialDepthText);
   });
 });

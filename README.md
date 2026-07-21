@@ -37,6 +37,12 @@ It's built the way a demoscene or generative-art project is built: raymarched si
 
 ---
 
+## ✒️ Typography
+
+The `CodeOfRealityV1.otf` font used for glyph rendering in this project was provided by the Discord channel administrator and used with their permission. It is **not** open-source software. Its usage terms are documented in [`assets/fonts/FONT-LICENSE.md`](./assets/fonts/FONT-LICENSE.md).
+
+---
+
 ## 🙏 A Tribute to Code of Reality
 
 This project exists because of the work of **[Danny Goler](https://x.com/golerdanny)**, founder of **[Code of Reality](https://codeofreality.org)**, and the **[Project Veilbreak](https://veilbreak.ai)** team, who have spent years building the open protocols and infrastructure that let thousands of people compare notes on what they see. Whatever your own view on what that phenomenon *is*, the amount of careful documentation, community-building, and open data work behind it deserves real respect — and this project is a small, independent way of saying so.

@@ -1,9 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap');
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'CodeOfReality';
+  src: url('../assets/fonts/CodeOfRealityV1.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-reality: "CodeOfReality", sans-serif;
 }
 
 /* Custom fine scrollbar design for retro-deck HUD */
