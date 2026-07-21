@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { LaserCanvas } from './components/LaserCanvas';
 import { TopControls, BottomControls } from './components/Controls';
 import { SimulationConfig } from './types';
@@ -30,27 +30,35 @@ const DEFAULT_CONFIG: SimulationConfig = {
 
 export default function App() {
   const [config, setConfig] = useState<SimulationConfig>(DEFAULT_CONFIG);
-  const [activeWall, setActiveWall] = useState(WALL_COLORS[0]);
-  const [zDepth, setZDepth] = useState(DEFAULT_Z_DEPTH);
+  const [activeWall, setActiveWall] = useState<string>(WALL_COLORS[0].hex);
+  const [zDepth, setZDepth] = useState<number>(DEFAULT_Z_DEPTH);
 
-  const handleUpdateConfig = (updates: Partial<SimulationConfig>) => {
-    setConfig(prev => ({ ...prev, ...updates }));
-  };
+  const handleUpdateConfig = useCallback((updates: Partial<SimulationConfig>) => {
+    setConfig((prev) => ({ ...prev, ...updates }));
+  }, []);
+
+  const handleActiveWallChange = useCallback((wallHex: string) => {
+    setActiveWall(wallHex);
+  }, []);
+
+  const handleZDepthChange = useCallback((depth: number) => {
+    setZDepth(depth);
+  }, []);
 
   return (
     <div className="w-screen h-screen bg-black overflow-hidden font-mono select-none">
-      <LaserCanvas 
-        config={config} 
-        wallColor={activeWall} 
-        onZDepthChange={setZDepth}
+      <LaserCanvas
+        config={config}
+        wallColor={activeWall}
+        onZDepthChange={handleZDepthChange}
       />
       <TopControls config={config} onUpdateConfig={handleUpdateConfig} />
-      <BottomControls 
-        config={config} 
-        onUpdateConfig={handleUpdateConfig} 
-        activeWall={activeWall} 
-        onActiveWallChange={setActiveWall} 
-        zDepth={zDepth} 
+      <BottomControls
+        config={config}
+        onUpdateConfig={handleUpdateConfig}
+        activeWall={activeWall}
+        onActiveWallChange={handleActiveWallChange}
+        zDepth={zDepth}
       />
       {/* Soft overlay vignette / blend */}
       <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />

@@ -1,0 +1,9 @@
+# These owners will be the default owners for everything in the repo.
+* @riftpane-org/core-team
+
+# Critical WebGL / GLSL shader code
+/src/shaders.ts @riftpane-org/core-team
+/src/components/LaserCanvas.tsx @riftpane-org/core-team
+
+# GitHub Workflows & CI Configuration
+/.github/ @riftpane-org/core-team

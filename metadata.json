@@ -1,6 +1,6 @@
 {
-  "name": "Laser Speckle and Cavern Simulator",
-  "description": "An interactive high-fidelity simulation of diffracted laser beams, physical speckle patterns, and multi-layered parallax cavern architecture based on wavelength physics.",
+  "name": "Riftpane - Laser Speckle & Volumetric Cavern Simulator",
+  "description": "Interactive WebGL shader environment simulating coherent laser beam diffraction, optical speckle interference, and volumetric raymarched parallax cavern geometries across distinct spatial configurations.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
