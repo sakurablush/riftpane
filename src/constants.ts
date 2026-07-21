@@ -41,8 +41,12 @@ export const UI_CONSTANTS = {
   wallColorDropdownZIndex: 100,
   zoomMin: -20.0,
   zoomMax: 30.0,
-  zoomSensitivity: 0.002,
+  zoomSensitivity: 0.004, // 2x more sensitive for touchpad smoothness
   mouseLookSensitivity: 0.005,
+  smoothing: {
+    look: 0.12,   // Higher = snappier camera follow
+    zoom: 0.15,   // Higher = snappier zoom follow
+  },
 } as const;
 
 export const VERSION_NAMES: Record<number, string> = {

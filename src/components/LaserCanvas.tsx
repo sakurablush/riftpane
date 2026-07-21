@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { SimulationConfig, WAVELENGTHS } from '../types';
 import { hexToRgbVec3 } from '../utils';
 import { getVertexShaderSource, getFragmentShaderSource } from '../shaders';
-import { generateFontAtlas, ATLAS_INFO } from '../utils/fontAtlas';
+import { generateFontAtlas } from '../utils/fontAtlas';
 import { ATLAS_UNIFORM_VALUES, FONT_ATLAS_UNIFORMS, UI_CONSTANTS, FULLSCREEN_QUAD_VERTICES, MILLISECONDS_TO_SECONDS, BYTE_TO_FLOAT, WINDOW_FALLBACK_WIDTH, WINDOW_FALLBACK_HEIGHT } from '../constants';
 
 interface LaserCanvasProps {
@@ -14,8 +14,14 @@ interface LaserCanvasProps {
 export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wallColor, onZDepthChange }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Smoothed camera state (what's actually rendered)
   const lookRef = useRef({ x: 0, y: 0 });
-  const zoomRef = useRef(1.5);
+  const zoomRef = useRef(UI_CONSTANTS.zoomMax * 0.4); // Start at a pleasant mid-distance
+  
+  // Target camera state (where input wants us to go)
+  const targetLookRef = useRef({ x: 0, y: 0 });
+  const targetZoomRef = useRef(UI_CONSTANTS.zoomMax * 0.4);
+  
   const isDownRef = useRef(false);
   const lastMRef = useRef({ x: 0, y: 0 });
   const timeRef = useRef(0);
@@ -32,7 +38,12 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
     wallColorRef.current = wallColor;
   }, [wallColor]);
 
-  // Event handlers
+  // Initialize z-depth to match starting zoom
+  useEffect(() => {
+    onZDepthChange(targetZoomRef.current);
+  }, [onZDepthChange]);
+
+  // Input handlers — set targets, don't directly modify smoothed state
   const handleMouseDown = useCallback((e: MouseEvent) => {
     isDownRef.current = true;
     lastMRef.current = { x: e.clientX, y: e.clientY };
@@ -44,8 +55,8 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDownRef.current) {
-      lookRef.current.x += (e.clientX - lastMRef.current.x) * UI_CONSTANTS.mouseLookSensitivity;
-      lookRef.current.y -= (e.clientY - lastMRef.current.y) * UI_CONSTANTS.mouseLookSensitivity;
+      targetLookRef.current.x += (e.clientX - lastMRef.current.x) * UI_CONSTANTS.mouseLookSensitivity;
+      targetLookRef.current.y -= (e.clientY - lastMRef.current.y) * UI_CONSTANTS.mouseLookSensitivity;
       lastMRef.current = { x: e.clientX, y: e.clientY };
     }
   }, []);
@@ -54,8 +65,8 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
     (e: WheelEvent) => {
       e.preventDefault();
       const delta = -e.deltaY * UI_CONSTANTS.zoomSensitivity;
-      zoomRef.current = Math.max(UI_CONSTANTS.zoomMin, Math.min(UI_CONSTANTS.zoomMax, zoomRef.current + delta));
-      onZDepthChange(zoomRef.current);
+      targetZoomRef.current = Math.max(UI_CONSTANTS.zoomMin, Math.min(UI_CONSTANTS.zoomMax, targetZoomRef.current + delta));
+      onZDepthChange(targetZoomRef.current);
     },
     [onZDepthChange]
   );
@@ -184,6 +195,10 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
     let anim: number;
     let lastTime = performance.now();
 
+    const lerp = (current: number, target: number, factor: number): number => {
+      return current + (target - current) * factor;
+    };
+
     const render = (now: number) => {
       if (!canvasRef.current) return;
       const currentConfig = configRef.current;
@@ -191,6 +206,15 @@ export const LaserCanvas: React.FC<LaserCanvasProps> = React.memo(({ config, wal
       const dt = now - lastTime;
       lastTime = now;
       timeRef.current += dt * MILLISECONDS_TO_SECONDS;
+
+      // Smooth camera follow — exponential moving average
+      // Higher factor = snappier response; lower = smoother/slower
+      const lookSmooth = 1.0 - Math.pow(1.0 - UI_CONSTANTS.smoothing.look, dt * 0.06);
+      const zoomSmooth = 1.0 - Math.pow(1.0 - UI_CONSTANTS.smoothing.zoom, dt * 0.06);
+
+      lookRef.current.x = lerp(lookRef.current.x, targetLookRef.current.x, lookSmooth);
+      lookRef.current.y = lerp(lookRef.current.y, targetLookRef.current.y, lookSmooth);
+      zoomRef.current = lerp(zoomRef.current, targetZoomRef.current, zoomSmooth);
 
       if (atlasReady && atlasTexture) {
         gl.activeTexture(gl.TEXTURE0);
