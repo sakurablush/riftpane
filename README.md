@@ -2,7 +2,31 @@
 
 An interactive, high-performance **WebGL (GLSL)** application simulating optical coherent laser diffraction, granular speckle interference phenomena, and multi-layered volumetric raymarched geometries across distinct spatial configurations.
 
-![Project Banner](https://img.shields.io/badge/WebGL-GLSL%20Fragment%20Shaders-red) ![React](https://img.shields.io/badge/React-18.3-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue) ![Vitest](https://img.shields.io/badge/Testing-Vitest%20%2B%20Coverage-brightgreen)
+![WebGL](https://img.shields.io/badge/WebGL-GLSL%20Fragment%20Shaders-red) ![React](https://img.shields.io/badge/React-18.3-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue) ![Vitest](https://img.shields.io/badge/Testing-Vitest%20%2B%20Coverage-brightgreen) ![License](https://img.shields.io/badge/License-MIT-green)
+
+> 📍 **Canonical Repository Notice**
+> 
+> This is the official upstream repository for **Riftpane**.
+> - **Main Source Code:** [https://github.com/riftpane/riftpane](https://github.com/riftpane/riftpane)
+> - **Live App:** [https://ais-pre-auqo7cetqehwxjrbjhvjfu-594288125821.europe-west1.run.app](https://ais-pre-auqo7cetqehwxjrbjhvjfu-594288125821.europe-west1.run.app)
+> - **Contributions & Issues:** Please submit all pull requests, feature requests, and bug reports to the [upstream repository](https://github.com/riftpane/riftpane).
+>
+> *If you are viewing a fork or mirror, please visit the canonical repository link above for official updates, releases, and discussions.*
+
+---
+
+## 🌌 Visual Tribute to Code of Reality
+
+> **In Short:** **Riftpane** is an artistic, interactive web experience that visually reconstructs what hundreds of individuals in the **Code of Reality** community describe when observing diffracted red laser light under DMT—a layered, structured, "constructed" space glimpsed as if through a narrow rift in reality.
+
+### About the Project
+Riftpane is neither a scientific experiment nor an attempt to prove or disprove any hypothesis—it is a purely artistic interpretation. Taking descriptions documented over years by the Code of Reality community, it translates these subjective accounts into a multi-layered, parallax WebGL visualization: from the foreground split laser beam, through a shimmering noise wall and translucent membrane, across pixel archipelagos, to distant glowing outline architectures—with each layer revealing swarming Katakana-like glyphs upon close inspection.
+
+### Acknowledgments
+This project is created out of deep respect and as a tribute to the work of **Danny Goler**, founder of **Code of Reality** ([codeofreality.org](https://codeofreality.org)), and the **Project Veilbreak** team, who have spent years documenting and standardizing these reports under open research protocols. Riftpane is an independent, fan-made artistic interpretation and is not officially affiliated with Code of Reality or Project Veilbreak.
+
+### Disclaimer
+*This project does not promote, condone, or encourage the use of illegal or controlled substances in any jurisdiction. It does not evaluate the validity of simulation hypotheses or the "code of reality"—it is strictly a visual and artistic exploration of reported phenomena, not a scientific statement.*
 
 ---
 
@@ -50,10 +74,10 @@ The application provides **5 distinct mathematical interpretations** of the volu
 - **24+ Wall Color Palette**: Floating popover modal with 24 custom wall background materials (e.g., *Obsidian Black*, *Charcoal Matte*, *Dark Crimson*, *Abyssal Blue*, *Cosmic Indigo*) and custom HTML5 Hex color input.
 - **Dynamic Camera Controls**: Click and drag across the WebGL canvas to rotate the camera orientation (`look.x`, `look.y`); scroll to adjust viewport depth (`zoom`).
 - **Real-Time Performance Tuning**:
-  - **Raymarch Steps** ($10 \rightarrow 600$ iterations)
-  - **Raymarch Max Distance** ($10 \rightarrow 120$ units)
-  - **CRT Snow Intensity** ($0.0 \rightarrow 8.0$)
-  - **Speckle Sparkle Intensity** ($0.0 \rightarrow 8.0$)
+  - **Raymarch Steps** (10 → 600 iterations)
+  - **Raymarch Max Distance** (10 → 120 units)
+  - **CRT Snow Intensity** (0.0 → 8.0)
+  - **Speckle Sparkle Intensity** (0.0 → 8.0)
 
 ---
 
@@ -107,8 +131,8 @@ npm run lint
 ### Installation
 
 ```bash
-# Clone repository
-git clone https://github.com/your-username/riftpane.git
+# Clone the canonical repository
+git clone https://github.com/riftpane/riftpane.git
 cd riftpane
 
 # Install dependencies

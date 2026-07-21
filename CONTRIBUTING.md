@@ -14,8 +14,8 @@ Thank you for your interest in contributing to **Riftpane** (Laser Speckle & Vol
 ### 2. Getting Started
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/riftpane.git
+# Clone the canonical repository
+git clone https://github.com/riftpane/riftpane.git
 cd riftpane
 
 # Install dependencies
