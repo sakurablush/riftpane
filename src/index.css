@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'CodeOfReality';
+  src: url('/fonts/CodeOfRealityV1.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+2000-206F, U+2070-209F, U+2190-21FF;
+}
+
+@layer base {
+  html, body, #root {
+    @apply m-0 p-0 w-full h-full bg-black text-slate-100 font-mono antialiased;
+  }
+}
+
+/* Fallback when custom font is unavailable */
+.font-replacement {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@keyframes fontMorph {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+.relax-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.relax-fade-out {
+  animation: fadeOut 2.5s ease-in forwards;
+}
+
+.sakura-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.sakura-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 42, 75, 0.05);
+  border-radius: 999px;
+}
+.sakura-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #c81e4f, #ff477e);
+  border-radius: 999px;
+}
+.sakura-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #ff477e rgba(255, 42, 75, 0.05);
+}
+
+/* Custom cursors for HUD */
+.riftpane-btn,
+.riftpane-btn * {
+  cursor: pointer;
+}
+input[type="range"] {
+  cursor: pointer;
+}
+.riftpane-btn:hover {
+  filter: brightness(1.2);
+}
+
+/* Ensure all interactive HUD elements have proper cursor */
+button, input[type="range"], a[href], select, textarea, [role="button"] {
+  cursor: pointer;
+}

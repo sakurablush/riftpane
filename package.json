@@ -1,0 +1,71 @@
+{
+  "name": "riftpane",
+  "version": "0.1.0",
+  "description": "A real-time WebGL renderer of a layered, laser-speckle cavern — raymarched GLSL shader art built as a tribute to visual testimony shared by the Code of Reality community.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://sakurablush.github.io/riftpane",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sakurablush/riftpane.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sakurablush/riftpane/issues"
+  },
+  "keywords": [
+    "webgl",
+    "glsl",
+    "shader-art",
+    "raymarching",
+    "sdf",
+    "signed-distance-field",
+    "volumetric-rendering",
+    "laser-speckle",
+    "generative-art",
+    "creative-coding",
+    "react",
+    "typescript",
+    "vitest"
+  ],
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "ci": "npm run lint && npm run test:run && npm run build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^6.0.4",
+    "lucide-react": "^1.26.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^8.1.5",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^26.1.1",
+    "@vitest/coverage-v8": "^4.1.10",
+    "autoprefixer": "^10.4.21",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.8.2",
+    "vite": "^8.1.5",
+    "vite-plugin-glsl": "^1.6.0",
+    "vitest": "^4.1.10"
+  }
+}

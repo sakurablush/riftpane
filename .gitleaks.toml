@@ -1,0 +1,16 @@
+# Gitleaks configuration for Riftpane
+# Detects secrets, API keys, tokens, passwords, and other sensitive data.
+
+[extend]
+useDefault = true
+
+[allowlist]
+paths = [
+  '''package-lock\.json''',
+  '''bun\.lock''',
+  '''\.secrets\.baseline''',
+  '''node_modules/''',
+  '''dist/''',
+  '''coverage/''',
+  '''\.git/''',
+]

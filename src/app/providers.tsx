@@ -1,0 +1,1 @@
+/* Providers are handled via Zustand stores — see state/ directory. */

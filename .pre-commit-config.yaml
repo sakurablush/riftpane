@@ -1,0 +1,24 @@
+# Pre-commit hooks for Riftpane
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Secret scanning: detect high-entropy strings, API keys, tokens, etc.
+  # Blocks commits containing potential secrets.
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        exclude: 'package-lock\.json|bun\.lock'
+
+  # Basic file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=1000']

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.p5e.cc/metadata/v1",
+  "name": "Riftpane",
+  "version": "0.1.0",
+  "description": "A real-time WebGL renderer of a layered, laser-speckle cavern — raymarched GLSL shader art built as a tribute to visual testimony shared by the Code of Reality community.",
+  "environment": "browser",
+  "capabilities": ["webgl"],
+  "tags": [
+    "webgl",
+    "glsl",
+    "shader-art",
+    "raymarching",
+    "sdf",
+    "signed-distance-field",
+    "volumetric-rendering",
+    "laser-speckle",
+    "generative-art",
+    "creative-coding",
+    "react",
+    "typescript"
+  ]
+}
